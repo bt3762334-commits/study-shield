@@ -299,3 +299,62 @@ a {
 .achievement-preview p {
   color: var(--muted);
 }
+.tasks-page {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.task-form {
+  display: flex;
+  gap: 10px;
+}
+
+.task-form input {
+  flex: 1;
+  background: var(--card);
+  border: none;
+  outline: none;
+  color: white;
+  padding: 14px;
+  border-radius: 14px;
+}
+
+.task-form button {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 14px 20px;
+  border-radius: 14px;
+  cursor: pointer;
+}
+
+.tasks-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.task-card {
+  background: var(--card);
+  padding: 16px;
+  border-radius: 16px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.task-card button {
+  background: crimson;
+  border: none;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.completed {
+  text-decoration: line-through;
+  opacity: .6;
+}
