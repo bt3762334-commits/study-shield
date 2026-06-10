@@ -29,14 +29,35 @@ export default function Home() {
 
   return (
     <MainLayout>
-      <section className="hero">
-        <h1>🛡️ Study Shield</h1>
+<section className="hero">
 
-        <p>
-          نظم دراستك ومهامك اليومية وحقق أهدافك خطوة بخطوة
-        </p>
-      </section>
+  <div>
 
+    <h1>
+      🛡️ Study Shield
+    </h1>
+
+    <p>
+      ركز على التقدم وليس الكمال
+    </p>
+
+  </div>
+
+  <div className="hero-stats">
+
+    <div>
+      <strong>
+        {stats.progress}%
+      </strong>
+
+      <span>
+        نسبة الإنجاز
+      </span>
+    </div>
+
+  </div>
+
+</section>
       <section className="verse-card">
         <h2>{verse.text}</h2>
         <span>{verse.source}</span>
