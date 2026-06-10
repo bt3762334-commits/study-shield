@@ -22,9 +22,13 @@ export default function UpcomingTasks() {
       <h3>المهام القادمة</h3>
 
       {tasks.length === 0 ? (
-        <p>
-          لا توجد مهام حالياً
-        </p>
+<div className="empty-state">
+  <h4>🎉 رائع!</h4>
+
+  <p>
+    لا توجد مهام معلقة حالياً
+  </p>
+</div>
       ) : (
         tasks.map(task => (
           <div
