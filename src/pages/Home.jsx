@@ -1,6 +1,9 @@
 import MainLayout from "../layout/MainLayout";
 import verse from "../data/quranVerse";
 
+import { useEffect, useState } from "react";
+import { getDashboardStats } from "../services/dashboardStats";
+
 import UpcomingTasks from "../components/ui/UpcomingTasks";
 import AchievementPreview from "../components/ui/AchievementPreview";
 
