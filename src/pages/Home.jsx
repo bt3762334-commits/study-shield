@@ -1,6 +1,9 @@
 import MainLayout from "../layout/MainLayout";
 import verse from "../data/quranVerse";
 
+import UpcomingTasks from "../components/ui/UpcomingTasks";
+import AchievementPreview from "../components/ui/AchievementPreview";
+
 import StatCard from "../components/ui/StatCard";
 import ProgressCard from "../components/ui/ProgressCard";
 
