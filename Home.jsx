@@ -1,3 +1,9 @@
+import MainLayout from "../layout/MainLayout";
+
 export default function Home() {
-  return <h1>Study Shield</h1>;
+  return (
+    <MainLayout>
+      <h2>الصفحة الرئيسية</h2>
+    </MainLayout>
+  );
 }
