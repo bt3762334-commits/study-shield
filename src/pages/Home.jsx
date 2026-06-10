@@ -31,6 +31,11 @@ export default function Home() {
       </section>
 
       <ProgressCard />
+      <section className="dashboard-grid">
+  <UpcomingTasks />
+  <AchievementPreview />
+</section>
+      
     </MainLayout>
   );
 }
