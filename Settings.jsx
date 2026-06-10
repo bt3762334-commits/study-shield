@@ -1,3 +1,9 @@
+import MainLayout from "../layout/MainLayout";
+
 export default function Settings() {
-  return <h1>Settings Page</h1>;
+  return (
+    <MainLayout>
+      <h2>الإعدادات</h2>
+    </MainLayout>
+  );
 }
