@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 
 import XPCard from "../components/ui/XPCard";
 
+import NotificationCenter from "../components/ui/NotificationCenter";
+
 import MainLayout from "../layout/MainLayout";
 import verse from "../data/quranVerse";
 
@@ -66,6 +68,8 @@ export default function Home() {
         progress={stats.progress}
       />
 <XPCard />
+      <NotificationCenter />
+      
       <section className="dashboard-grid">
         <UpcomingTasks />
         <AchievementPreview />
