@@ -1,14 +1,26 @@
-export default function ProgressCard() {
+export default function ProgressCard({
+  progress = 0
+}) {
   return (
     <div className="progress-card">
+
       <div className="progress-header">
-        <h3>التقدم اليومي</h3>
-        <span>80%</span>
+        <h3>نسبة الإنجاز</h3>
+
+        <span>
+          {progress}%
+        </span>
       </div>
 
       <div className="progress-bar">
-        <div className="progress-fill"></div>
+        <div
+          className="progress-fill"
+          style={{
+            width: `${progress}%`
+          }}
+        />
       </div>
+
     </div>
   );
 }
