@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 
+import XPCard from "../components/ui/XPCard";
+
 import MainLayout from "../layout/MainLayout";
 import verse from "../data/quranVerse";
 
@@ -63,7 +65,7 @@ export default function Home() {
       <ProgressCard
         progress={stats.progress}
       />
-
+<XPCard />
       <section className="dashboard-grid">
         <UpcomingTasks />
         <AchievementPreview />
