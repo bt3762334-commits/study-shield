@@ -1,7 +1,8 @@
+import { useEffect, useState } from "react";
+
 import MainLayout from "../layout/MainLayout";
 import verse from "../data/quranVerse";
 
-import { useEffect, useState } from "react";
 import { getDashboardStats } from "../services/dashboardStats";
 
 import UpcomingTasks from "../components/ui/UpcomingTasks";
@@ -11,6 +12,17 @@ import StatCard from "../components/ui/StatCard";
 import ProgressCard from "../components/ui/ProgressCard";
 
 export default function Home() {
+  const [stats, setStats] = useState({
+    tasks: 0,
+    lessons: 0,
+    lectures: 0,
+    progress: 0
+  });
+
+  useEffect(() => {
+    setStats(getDashboardStats());
+  }, []);
+
   return (
     <MainLayout>
       <section className="hero">
@@ -27,18 +39,36 @@ export default function Home() {
       </section>
 
       <section className="stats-grid">
-        <StatCard title="المهام اليوم" value="8" />
-        <StatCard title="الدروس القادمة" value="3" />
-        <StatCard title="المحاضرات" value="2" />
-        <StatCard title="الإنجاز" value="80%" />
+        <StatCard
+          title="المهام"
+          value={stats.tasks}
+        />
+
+        <StatCard
+          title="الدروس"
+          value={stats.lessons}
+        />
+
+        <StatCard
+          title="المحاضرات"
+          value={stats.lectures}
+        />
+
+        <StatCard
+          title="الإنجاز"
+          value={`${stats.progress}%`}
+        />
       </section>
 
-      <ProgressCard />
+      <ProgressCard
+        progress={stats.progress}
+      />
+
       <section className="dashboard-grid">
-  <UpcomingTasks />
-  <AchievementPreview />
-</section>
-      
+        <UpcomingTasks />
+        <AchievementPreview />
+      </section>
+
     </MainLayout>
   );
 }
