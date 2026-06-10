@@ -1049,3 +1049,101 @@ button:active {
   transform:
     translateY(0);
 }
+.quick-actions {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3,1fr);
+
+  gap: 15px;
+
+  margin-bottom: 25px;
+}
+
+.action-card {
+  text-decoration: none;
+
+  color: white;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(59,130,246,.12),
+      rgba(59,130,246,.03)
+    );
+
+  border:
+    1px solid rgba(255,255,255,.08);
+
+  border-radius: 20px;
+
+  padding: 20px;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  gap: 10px;
+
+  font-size: 24px;
+
+  transition: .3s;
+}
+
+.action-card:hover {
+  transform:
+    translateY(-4px);
+
+  border-color:
+    rgba(59,130,246,.4);
+}
+
+.action-card span {
+  font-size: 14px;
+}
+.achievement-card.unlocked {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(59,130,246,.15),
+      rgba(96,165,250,.05)
+    );
+}
+
+.achievement-card.unlocked .achievement-icon {
+  animation:
+    achievementGlow 2s infinite;
+}
+
+@keyframes achievementGlow {
+
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.08);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+.tasks-page {
+  max-width: 1000px;
+}
+
+.task-card {
+  gap: 20px;
+}
+
+.task-content span {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.task-content p {
+  line-height: 1.8;
+}
