@@ -1,1 +1,92 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
+:root {
+  --bg: #0f172a;
+  --card: #1e293b;
+  --card-hover: #273449;
+  --primary: #2563eb;
+  --secondary: #38bdf8;
+  --text: #ffffff;
+  --muted: #94a3b8;
+}
+
+body {
+  font-family: "Cairo", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+a {
+  text-decoration: none;
+}
+
+.app-layout {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 260px;
+  background: #111827;
+  border-left: 1px solid rgba(255,255,255,.08);
+  padding: 24px;
+}
+
+.logo {
+  margin-bottom: 40px;
+}
+
+.logo h2 {
+  font-size: 22px;
+}
+
+.sidebar nav {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sidebar nav a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--muted);
+  padding: 12px;
+  border-radius: 12px;
+  transition: .3s;
+}
+
+.sidebar nav a:hover {
+  background: var(--card);
+  color: white;
+}
+
+.sidebar nav a.active {
+  background: var(--primary);
+  color: white;
+}
+
+.main-content {
+  flex: 1;
+}
+
+.header {
+  padding: 24px;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+.header h1 {
+  margin-bottom: 5px;
+}
+
+.header p {
+  color: var(--muted);
+}
+
+.page-content {
+  padding: 30px;
+}
