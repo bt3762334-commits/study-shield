@@ -1,35 +1,65 @@
+import { useEffect, useState } from "react";
+
+import {
+  getTasks
+} from "../../services/taskStorage";
+
 export default function UpcomingTasks() {
-  const tasks = [
-    {
-      title: "مراجعة React",
-      time: "6:00 مساءً"
-    },
-    {
-      title: "حل Assignment",
-      time: "8:00 مساءً"
-    },
-    {
-      title: "قراءة فصل Database",
-      time: "10:00 مساءً"
-    }
-  ];
+  const [tasks, setTasks] = useState([]);
+
+  useEffect(() => {
+    const allTasks = getTasks();
+
+    const upcoming = allTasks
+      .filter(task => !task.completed)
+      .slice(0, 5);
+
+    setTasks(upcoming);
+  }, []);
 
   return (
     <div className="dashboard-card">
       <h3>المهام القادمة</h3>
 
-      {tasks.map((task, index) => (
-        <div
-          className="task-item"
-          key={index}
-        >
-          <div>
-            <h4>{task.title}</h4>
-          </div>
+      {tasks.length === 0 ? (
+        <p>
+          لا توجد مهام حالياً
+        </p>
+      ) : (
+        tasks.map(task => (
+          <div
+            className="task-item"
+            key={task.id}
+          >
+            <div>
 
-          <span>{task.time}</span>
-        </div>
-      ))}
+              <h4>
+                {task.title}
+              </h4>
+
+              {task.date && (
+                <small>
+                  {task.date}
+                </small>
+              )}
+
+            </div>
+
+            {task.priority && (
+              <span
+                className={`priority ${task.priority}`}
+              >
+                {task.priority === "high"
+                  ? "عالية"
+                  : task.priority === "medium"
+                  ? "متوسطة"
+                  : "منخفضة"}
+              </span>
+            )}
+
+          </div>
+        ))
+      )}
     </div>
   );
 }
