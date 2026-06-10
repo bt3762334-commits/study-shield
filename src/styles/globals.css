@@ -5,19 +5,47 @@
 }
 
 :root {
-  --bg: #0f172a;
-  --card: #1e293b;
-  --card-hover: #273449;
-  --primary: #2563eb;
-  --secondary: #38bdf8;
-  --text: #ffffff;
+  --bg: #0b1120;
+
+  --sidebar: #111827;
+
+  --card: #172033;
+
+  --card-hover: #1e293b;
+
+  --primary: #3b82f6;
+
+  --secondary: #60a5fa;
+
+  --success: #22c55e;
+
+  --warning: #f59e0b;
+
+  --danger: #ef4444;
+
+  --text: #f8fafc;
+
   --muted: #94a3b8;
 }
-
 body {
   font-family: "Cairo", sans-serif;
-  background: var(--bg);
+
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(59,130,246,.12),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at bottom left,
+      rgba(96,165,250,.08),
+      transparent 30%
+    ),
+    var(--bg);
+
   color: var(--text);
+
+  min-height: 100vh;
 }
 
 a {
@@ -574,4 +602,20 @@ small {
     transform:
       translateY(0);
   }
+}
+.dashboard-card,
+.stat-card,
+.task-card,
+.progress-card,
+.verse-card {
+  box-shadow:
+    0 10px 30px rgba(0,0,0,.25);
+}
+
+.dashboard-card:hover,
+.stat-card:hover,
+.task-card:hover {
+  transform: translateY(-4px);
+
+  transition: .3s;
 }
