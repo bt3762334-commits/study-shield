@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 
 import XPCard from "../components/ui/XPCard";
 
+import QuickActions from "../components/ui/QuickActions";
+
 import NotificationCenter from "../components/ui/NotificationCenter";
 
 import MainLayout from "../layout/MainLayout";
@@ -58,6 +60,8 @@ export default function Home() {
   </div>
 
 </section>
+      <QuickActions />
+      
       <section className="verse-card">
         <h2>{verse.text}</h2>
         <span>{verse.source}</span>
