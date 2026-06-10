@@ -1,3 +1,9 @@
+import MainLayout from "../layout/MainLayout";
+
 export default function Achievements() {
-  return <h1>Achievements Page</h1>;
+  return (
+    <MainLayout>
+      <h2>الأوسمة</h2>
+    </MainLayout>
+  );
 }
