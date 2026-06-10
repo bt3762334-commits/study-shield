@@ -1,18 +1,14 @@
 export default function UpcomingTasks() {
-  const tasks = [
-    {
-      title: "مراجعة React",
-      time: "6:00 مساءً"
-    },
-    {
-      title: "حل Assignment",
-      time: "8:00 مساءً"
-    },
-    {
-      title: "قراءة فصل Database",
-      time: "10:00 مساءً"
-    }
-  ];
+const [stats, setStats] = useState({
+  tasks: 0,
+  lessons: 0,
+  lectures: 0,
+  progress: 0
+});
+
+useEffect(() => {
+  setStats(getDashboardStats());
+}, []);
 
   return (
     <div className="dashboard-card">
