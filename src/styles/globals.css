@@ -172,3 +172,85 @@ a {
     #38bdf8
   );
 }
+.hero {
+  margin-bottom: 30px;
+}
+
+.hero h1 {
+  font-size: 42px;
+  margin-bottom: 10px;
+}
+
+.hero p {
+  color: var(--muted);
+  font-size: 18px;
+}
+
+.verse-card {
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 20px;
+  padding: 30px;
+  margin-bottom: 30px;
+  text-align: center;
+  backdrop-filter: blur(10px);
+}
+
+.verse-card h2 {
+  margin-bottom: 10px;
+}
+
+.verse-card span {
+  color: var(--muted);
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.stat-card {
+  background: var(--card);
+  border-radius: 20px;
+  padding: 25px;
+}
+
+.stat-card h3 {
+  font-size: 32px;
+  margin-bottom: 8px;
+}
+
+.stat-card p {
+  color: var(--muted);
+}
+
+.progress-card {
+  background: var(--card);
+  padding: 25px;
+  border-radius: 20px;
+}
+
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.progress-bar {
+  height: 12px;
+  background: rgba(255,255,255,.1);
+  border-radius: 100px;
+}
+
+.progress-fill {
+  width: 80%;
+  height: 100%;
+  border-radius: 100px;
+  background: linear-gradient(
+    90deg,
+    #2563eb,
+    #38bdf8
+  );
+}
