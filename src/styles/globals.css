@@ -33,19 +33,29 @@ body {
   background:
     radial-gradient(
       circle at top right,
-      rgba(59,130,246,.12),
+      rgba(59,130,246,.15),
       transparent 30%
     ),
+
     radial-gradient(
       circle at bottom left,
-      rgba(96,165,250,.08),
-      transparent 30%
+      rgba(96,165,250,.10),
+      transparent 35%
     ),
-    var(--bg);
+
+    radial-gradient(
+      circle at center,
+      rgba(59,130,246,.05),
+      transparent 50%
+    ),
+
+    #0b1120;
 
   color: var(--text);
 
   min-height: 100vh;
+
+  overflow-x: hidden;
 }
 
 a {
@@ -185,6 +195,8 @@ a {
   padding: 25px;
 
   transition: .3s;
+  position: relative;
+overflow: hidden;
 }
 
 .stat-card:hover {
@@ -192,10 +204,10 @@ a {
 }
 
 .stat-card h3 {
-  font-size: 32px;
-  margin-bottom: 8px;
+  font-size: 38px;
+  font-weight: 700;
+  margin-bottom: 10px;
 }
-
 .stat-card p {
   color: var(--muted);
 }
@@ -937,4 +949,55 @@ small {
 
   bottom: -100px;
   left: -100px;
+}
+.stat-card::after {
+  content: "";
+
+  position: absolute;
+
+  width: 80px;
+  height: 80px;
+
+  border-radius: 50%;
+
+  background:
+    rgba(59,130,246,.1);
+
+  top: -20px;
+  left: -20px;
+}
+.empty-state {
+  text-align: center;
+
+  padding: 30px 10px;
+}
+
+.empty-state h4 {
+  margin-bottom: 10px;
+}
+body::before {
+  content: "";
+
+  position: fixed;
+
+  inset: 0;
+
+  background-image:
+
+    linear-gradient(
+      rgba(255,255,255,.015) 1px,
+      transparent 1px
+    ),
+
+    linear-gradient(
+      90deg,
+      rgba(255,255,255,.015) 1px,
+      transparent 1px
+    );
+
+  background-size: 40px 40px;
+
+  pointer-events: none;
+
+  z-index: -1;
 }
