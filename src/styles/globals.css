@@ -786,3 +786,49 @@ small {
 
   border-radius: 14px;
 }
+.page-title {
+  margin-bottom: 25px;
+}
+
+.achievement-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(auto-fill,minmax(220px,1fr));
+
+  gap: 20px;
+}
+
+.achievement-card {
+  background: var(--card);
+
+  border: 1px solid rgba(255,255,255,.08);
+
+  border-radius: 22px;
+
+  padding: 25px;
+
+  text-align: center;
+
+  opacity: .45;
+
+  transition: .3s;
+}
+
+.achievement-card.unlocked {
+  opacity: 1;
+
+  border-color:
+    rgba(59,130,246,.5);
+}
+
+.achievement-card:hover {
+  transform:
+    translateY(-4px);
+}
+
+.achievement-icon {
+  font-size: 55px;
+
+  margin-bottom: 15px;
+}
