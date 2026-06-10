@@ -1,3 +1,9 @@
+import MainLayout from "../layout/MainLayout";
+
 export default function Lessons() {
-  return <h1>Lessons Page</h1>;
+  return (
+    <MainLayout>
+      <h2>الدروس</h2>
+    </MainLayout>
+  );
 }
