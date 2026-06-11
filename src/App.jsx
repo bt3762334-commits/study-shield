@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom";
-
+import Pomodoro from "./pages/Pomodoro";
 import Home from "./pages/Home";
 import Tasks from "./pages/Tasks";
 import Lessons from "./pages/Lessons";
@@ -11,7 +11,10 @@ import Profile from "./pages/Profile";
 function App() {
   return (
     <Routes>
-
+<Route
+  path="/pomodoro"
+  element={<Pomodoro />}
+/>
       <Route
         path="/"
         element={<Home />}
