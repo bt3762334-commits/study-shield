@@ -11,10 +11,7 @@ import {
   Shield,
   User
 } from "lucide-react";
-<NavLink to="/pomodoro">
-  <Timer size={20}/>
-  <span>Pomodoro</span>
-</NavLink>
+
 export default function Sidebar() {
 
   return (
@@ -69,6 +66,13 @@ export default function Sidebar() {
             <GraduationCap size={20} />
             <span>
               المحاضرات
+            </span>
+          </NavLink>
+
+          <NavLink to="/pomodoro">
+            <Timer size={20} />
+            <span>
+              بومودورو
             </span>
           </NavLink>
 

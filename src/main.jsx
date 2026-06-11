@@ -5,6 +5,13 @@ import { BrowserRouter } from "react-router-dom";
 import App from "./App";
 import "./styles/globals.css";
 
+// تهيئة الخدمات
+import { themeService } from "./services/themeService";
+import { soundService } from "./services/soundService";
+
+// تهيئة المظهر
+themeService.init();
+
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     navigator.serviceWorker

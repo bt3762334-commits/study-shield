@@ -3,6 +3,7 @@ import {
   requestNotificationPermission,
   enableNotifications
 } from "../../services/notificationService";
+import { soundService } from "../../services/soundService";
 
 export default function NotificationManager() {
   const [permission, setPermission] =
@@ -32,6 +33,9 @@ export default function NotificationManager() {
             );
 
             enableNotifications();
+
+            // تشغيل صوت التنبيه عند التفعيل
+            soundService.playSuccess();
 
             if (
               "serviceWorker" in
@@ -78,6 +82,9 @@ export default function NotificationManager() {
 
           enableNotifications();
 
+          // تشغيل صوت النجاح عند تفعيل التنبيهات
+          soundService.playSuccess();
+
           if (
             "serviceWorker" in
             navigator
@@ -101,12 +108,15 @@ export default function NotificationManager() {
           console.warn(
             "⚠️ Notification permission was denied"
           );
+          // تشغيل صوت خطأ عند الرفض
+          soundService.playError();
         }
       } catch (error) {
         console.error(
           "❌ Error enabling notifications:",
           error
         );
+        soundService.playError();
       }
     };
 
