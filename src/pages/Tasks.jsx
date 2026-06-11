@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import MainLayout from "../layout/MainLayout";
+import BackButton from "../components/ui/BackButton";
 
 import {
   getTasks,
@@ -11,11 +12,17 @@ import {
 } from "../services/streakSystem";
 
 export default function Tasks() {
+
   const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [priority, setPriority] = useState("medium");
+  const [description, setDescription] =
+    useState("");
+
+  const [priority, setPriority] =
+    useState("medium");
+
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
+
   const [tasks, setTasks] = useState([]);
 
   useEffect(() => {
@@ -23,6 +30,7 @@ export default function Tasks() {
   }, []);
 
   const addTask = () => {
+
     if (!title.trim()) return;
 
     const newTask = {
@@ -35,7 +43,10 @@ export default function Tasks() {
       completed: false
     };
 
-    const updated = [...tasks, newTask];
+    const updated = [
+      ...tasks,
+      newTask
+    ];
 
     setTasks(updated);
     saveTasks(updated);
@@ -48,162 +59,302 @@ export default function Tasks() {
   };
 
   const toggleTask = (id) => {
-    const updated = tasks.map((task) =>
-      task.id === id
-        ? {
-            ...task,
-            completed: !task.completed
-          }
-        : task
-    );
+
+    const updated = tasks.map(task => {
+
+      if (task.id === id) {
+
+        const newCompleted =
+          !task.completed;
+
+        if (newCompleted) {
+          updateStreak();
+        }
+
+        return {
+          ...task,
+          completed: newCompleted
+        };
+      }
+
+      return task;
+    });
 
     setTasks(updated);
     saveTasks(updated);
   };
 
   const deleteTask = (id) => {
-    const updated = tasks.filter(
-      (task) => task.id !== id
-    );
+
+    const updated =
+      tasks.filter(
+        task => task.id !== id
+      );
 
     setTasks(updated);
     saveTasks(updated);
   };
 
+  const activeTasks =
+    tasks.filter(
+      task => !task.completed
+    );
+
+  const completedTasks =
+    tasks.filter(
+      task => task.completed
+    );
+
   return (
     <MainLayout>
-      <div className="tasks-page">
 
-        <div className="task-form">
+      <BackButton />
 
-          <input
-            type="text"
-            placeholder="عنوان المهمة"
-            value={title}
-            onChange={(e) =>
-              setTitle(e.target.value)
-            }
-          />
+      <h1 className="page-title">
+        ✅ إدارة المهام
+      </h1>
 
-          <textarea
-            placeholder="وصف المهمة (اختياري)"
-            value={description}
-            onChange={(e) =>
-              setDescription(e.target.value)
-            }
-          />
+      <div className="task-form">
 
-          <select
-            value={priority}
-            onChange={(e) =>
-              setPriority(e.target.value)
-            }
-          >
-            <option value="high">
-              عالية
-            </option>
+        <input
+          type="text"
+          placeholder="عنوان المهمة"
+          value={title}
+          onChange={(e) =>
+            setTitle(
+              e.target.value
+            )
+          }
+        />
 
-            <option value="medium">
-              متوسطة
-            </option>
+        <textarea
+          placeholder="وصف المهمة (اختياري)"
+          value={description}
+          onChange={(e) =>
+            setDescription(
+              e.target.value
+            )
+          }
+        />
 
-            <option value="low">
-              منخفضة
-            </option>
-          </select>
+        <select
+          value={priority}
+          onChange={(e) =>
+            setPriority(
+              e.target.value
+            )
+          }
+        >
+          <option value="high">
+            عالية
+          </option>
 
-          <input
-            type="date"
-            value={date}
-            onChange={(e) =>
-              setDate(e.target.value)
-            }
-          />
+          <option value="medium">
+            متوسطة
+          </option>
 
-          <input
-            type="time"
-            value={time}
-            onChange={(e) =>
-              setTime(e.target.value)
-            }
-          />
+          <option value="low">
+            منخفضة
+          </option>
+        </select>
 
-          <button onClick={addTask}>
-            إضافة المهمة
-          </button>
+        <input
+          type="date"
+          value={date}
+          onChange={(e) =>
+            setDate(
+              e.target.value
+            )
+          }
+        />
 
-        </div>
+        <input
+          type="time"
+          value={time}
+          onChange={(e) =>
+            setTime(
+              e.target.value
+            )
+          }
+        />
+
+        <button
+          onClick={addTask}
+        >
+          ➕ إضافة المهمة
+        </button>
+
+      </div>
+
+      <div className="section-card">
+
+        <h2>
+          📌 المهام الحالية
+        </h2>
 
         <div className="tasks-list">
 
-          {tasks.map((task) => (
-            <div
-              className="task-card"
-              key={task.id}
-            >
-              <div className="task-content">
+          {activeTasks.length === 0 ? (
 
-                <div>
-                  <input
-                    type="checkbox"
-                    checked={task.completed}
-                    onChange={() =>
-                      toggleTask(task.id)
-                    }
-                  />
-                </div>
+            <div className="empty-state">
 
-                <span
-                  className={
-                    task.completed
-                      ? "completed"
-                      : ""
-                  }
+              <h4>
+                لا توجد مهام حالياً
+              </h4>
+
+              <p>
+                أضف مهمة جديدة للبدء
+              </p>
+
+            </div>
+
+          ) : (
+
+            activeTasks.map(task => (
+
+              <div
+                className="task-card"
+                key={task.id}
+              >
+
+                <div
+                  className="task-content"
                 >
-                  {task.title}
-                </span>
 
-                {task.description && (
-                  <p>{task.description}</p>
-                )}
-
-                <div className="task-meta">
-
-                  <span
-                    className={`priority ${task.priority}`}
-                  >
-                    {task.priority === "high"
-                      ? "عالية"
-                      : task.priority === "medium"
-                      ? "متوسطة"
-                      : "منخفضة"}
+                  <span>
+                    {task.title}
                   </span>
 
-                  {task.date && (
-                    <span>{task.date}</span>
+                  {task.description && (
+                    <p>
+                      {
+                        task.description
+                      }
+                    </p>
                   )}
 
-                  {task.time && (
-                    <span>{task.time}</span>
-                  )}
+                  <div
+                    className="task-meta"
+                  >
+
+                    <span
+                      className={`priority ${task.priority}`}
+                    >
+                      {task.priority ===
+                      "high"
+                        ? "🔥 عالية"
+                        : task.priority ===
+                          "medium"
+                        ? "⚡ متوسطة"
+                        : "✅ منخفضة"}
+                    </span>
+
+                    {task.date && (
+                      <span>
+                        📅 {task.date}
+                      </span>
+                    )}
+
+                    {task.time && (
+                      <span>
+                        ⏰ {task.time}
+                      </span>
+                    )}
+
+                  </div>
+
+                </div>
+
+                <div
+                  style={{
+                    display: "flex",
+                    gap: "10px",
+                    alignItems:
+                      "center"
+                  }}
+                >
+
+                  <input
+                    type="checkbox"
+                    checked={
+                      task.completed
+                    }
+                    onChange={() =>
+                      toggleTask(
+                        task.id
+                      )
+                    }
+                  />
+
+                  <button
+                    onClick={() =>
+                      deleteTask(
+                        task.id
+                      )
+                    }
+                  >
+                    حذف
+                  </button>
 
                 </div>
 
               </div>
 
-              <button
-                onClick={() =>
-                  deleteTask(task.id)
-                }
-              >
-                حذف
-              </button>
-            </div>
-          ))}
+            ))
+          )}
 
         </div>
 
       </div>
+
+      <div className="section-card">
+
+        <h2>
+          🏆 المهام المكتملة
+        </h2>
+
+        <div className="tasks-list">
+
+          {completedTasks.length === 0 ? (
+
+            <div className="empty-state">
+
+              <h4>
+                لا توجد مهام مكتملة
+              </h4>
+
+            </div>
+
+          ) : (
+
+            completedTasks.map(task => (
+
+              <div
+                className="task-card"
+                key={task.id}
+              >
+
+                <div
+                  className="task-content"
+                >
+
+                  <span
+                    className="completed"
+                  >
+                    {task.title}
+                  </span>
+
+                </div>
+
+              </div>
+
+            ))
+          )}
+
+        </div>
+
+      </div>
+
     </MainLayout>
   );
 }
