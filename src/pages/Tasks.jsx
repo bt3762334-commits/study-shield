@@ -179,6 +179,7 @@ export default function Tasks() {
         />
 
         <button
+          type="button"
           onClick={addTask}
         >
           ➕ إضافة المهمة
@@ -265,14 +266,7 @@ export default function Tasks() {
 
                 </div>
 
-                <div
-                  style={{
-                    display: "flex",
-                    gap: "10px",
-                    alignItems:
-                      "center"
-                  }}
-                >
+                <div className="task-actions">
 
                   <input
                     type="checkbox"
@@ -287,6 +281,8 @@ export default function Tasks() {
                   />
 
                   <button
+                    type="button"
+                    className="delete"
                     onClick={() =>
                       deleteTask(
                         task.id

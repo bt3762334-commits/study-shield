@@ -150,6 +150,7 @@ export default function Lectures() {
         />
 
         <button
+          type="button"
           onClick={addLecture}
         >
           إضافة محاضرة
@@ -203,12 +204,7 @@ export default function Lectures() {
 
                 </div>
 
-                <div
-                  style={{
-                    display: "flex",
-                    gap: "10px"
-                  }}
-                >
+                <div className="task-actions">
 
                   <input
                     type="checkbox"
@@ -223,6 +219,8 @@ export default function Lectures() {
                   />
 
                   <button
+                    type="button"
+                    className="delete"
                     onClick={() =>
                       deleteLecture(
                         lecture.id

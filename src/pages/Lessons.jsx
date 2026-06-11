@@ -146,6 +146,7 @@ export default function Lessons() {
         />
 
         <button
+          type="button"
           onClick={addLesson}
         >
           إضافة درس
@@ -199,12 +200,7 @@ export default function Lessons() {
 
                 </div>
 
-                <div
-                  style={{
-                    display: "flex",
-                    gap: "10px"
-                  }}
-                >
+                <div className="task-actions">
 
                   <input
                     type="checkbox"
@@ -219,6 +215,8 @@ export default function Lessons() {
                   />
 
                   <button
+                    type="button"
+                    className="delete"
                     onClick={() =>
                       deleteLesson(
                         lesson.id
