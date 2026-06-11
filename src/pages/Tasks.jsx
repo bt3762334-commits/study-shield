@@ -6,6 +6,10 @@ import {
   saveTasks
 } from "../services/taskStorage";
 
+import {
+  updateStreak
+} from "../services/streakSystem";
+
 export default function Tasks() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
