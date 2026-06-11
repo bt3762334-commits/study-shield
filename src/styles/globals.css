@@ -90,6 +90,39 @@ button:active {
   transform: translateY(0);
 }
 
+.action-card {
+  text-decoration: none;
+  color: white;
+  background:
+    linear-gradient(
+      135deg,
+      rgba(59,130,246,.12),
+      rgba(59,130,246,.03)
+    );
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 24px;
+  padding: 28px;
+  min-height: 130px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  transition: .3s;
+}
+
+.action-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(59,130,246,.5);
+  box-shadow: 0 15px 35px rgba(37,99,235,.2);
+}
+
+.action-card span {
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+}
+
 /* =========================
    LAYOUT
 ========================= */
