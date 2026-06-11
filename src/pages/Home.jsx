@@ -10,6 +10,7 @@ import UpcomingTasks from "../components/ui/UpcomingTasks";
 import AchievementPreview from "../components/ui/AchievementPreview";
 import StatCard from "../components/ui/StatCard";
 import ProgressCard from "../components/ui/ProgressCard";
+import DailyContent from "../components/ui/DailyContent";
 
 export default function Home() {
   const [stats, setStats] = useState({
@@ -56,10 +57,7 @@ export default function Home() {
 </section>
       <QuickActions />
       
-      <section className="verse-card">
-        <h2>{verse.text}</h2>
-        <span>{verse.source}</span>
-      </section>
+      <DailyContent />
 
       <section className="stats-grid">
         <StatCard
