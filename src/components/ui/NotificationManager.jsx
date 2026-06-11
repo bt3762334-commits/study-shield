@@ -57,32 +57,56 @@ export default function NotificationManager() {
 
   const handleEnableNotifications =
     async () => {
-      const hasPermission =
-        await requestNotificationPermission();
+      try {
+        console.log(
+          "🔔 Button clicked: enabling notifications..."
+        );
+        
+        const hasPermission =
+          await requestNotificationPermission();
 
-      if (hasPermission) {
-        setPermission("granted");
-        setNotificationsEnabled(
-          true
+        console.log(
+          "📢 Has permission:",
+          hasPermission
         );
 
-        enableNotifications();
+        if (hasPermission) {
+          setPermission("granted");
+          setNotificationsEnabled(
+            true
+          );
 
-        if (
-          "serviceWorker" in
-          navigator
-        ) {
-          navigator.serviceWorker
-            .register(
-              "/service-worker.js"
-            )
-            .catch(error =>
-              console.log(
-                "SW registration failed:",
-                error
+          enableNotifications();
+
+          if (
+            "serviceWorker" in
+            navigator
+          ) {
+            navigator.serviceWorker
+              .register(
+                "/service-worker.js"
               )
-            );
+              .catch(error =>
+                console.error(
+                  "❌ SW registration failed:",
+                  error
+                )
+              );
+          }
+
+          console.log(
+            "✅ Notifications enabled successfully"
+          );
+        } else {
+          console.warn(
+            "⚠️ Notification permission was denied"
+          );
         }
+      } catch (error) {
+        console.error(
+          "❌ Error enabling notifications:",
+          error
+        );
       }
     };
 

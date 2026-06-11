@@ -10,33 +10,73 @@ export const requestNotificationPermission =
     if (
       !("Notification" in window)
     ) {
-      console.log(
-        "Browser does not support notifications"
+      console.error(
+        "❌ Browser does not support notifications"
       );
       return false;
     }
+
+    console.log(
+      "📢 Current permission:",
+      Notification.permission
+    );
 
     if (
       Notification.permission ===
       "granted"
     ) {
+      console.log(
+        "✅ Notifications already granted"
+      );
       return true;
     }
 
     if (
-      Notification.permission !==
+      Notification.permission ===
       "denied"
     ) {
+      console.error(
+        "❌ Notifications blocked by user"
+      );
+      alert(
+        "الإشعارات معطلة. يرجى تفعيلها من إعدادات المتصفح"
+      );
+      return false;
+    }
+
+    try {
+      console.log(
+        "🔔 Requesting notification permission..."
+      );
       const permission =
         await Notification
           .requestPermission();
 
-      return (
-        permission === "granted"
+      console.log(
+        "📢 Permission result:",
+        permission
       );
-    }
 
-    return false;
+      if (
+        permission === "granted"
+      ) {
+        console.log(
+          "✅ Notifications enabled successfully"
+        );
+        return true;
+      } else {
+        console.error(
+          "❌ User denied notifications"
+        );
+        return false;
+      }
+    } catch (error) {
+      console.error(
+        "❌ Error requesting notification permission:",
+        error
+      );
+      return false;
+    }
   };
 
 export const sendNotification = (
@@ -44,14 +84,41 @@ export const sendNotification = (
   options = {}
 ) => {
   if (
+    !("Notification" in window)
+  ) {
+    console.error(
+      "❌ Notifications not supported"
+    );
+    return false;
+  }
+
+  if (
     Notification.permission ===
     "granted"
   ) {
-    new Notification(title, {
-      icon: "/favicon.ico",
-      badge: "/favicon.ico",
-      ...options
-    });
+    try {
+      new Notification(title, {
+        icon: "/favicon.ico",
+        badge: "/favicon.ico",
+        ...options
+      });
+      console.log(
+        "✅ Notification sent:",
+        title
+      );
+      return true;
+    } catch (error) {
+      console.error(
+        "❌ Error sending notification:",
+        error
+      );
+      return false;
+    }
+  } else {
+    console.warn(
+      "⚠️ Notification permission not granted"
+    );
+    return false;
   }
 };
 
