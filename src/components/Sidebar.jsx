@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import { Timer } from "lucide-react";
 
 import {
   House,
@@ -10,7 +11,10 @@ import {
   Shield,
   User
 } from "lucide-react";
-
+<NavLink to="/pomodoro">
+  <Timer size={20}/>
+  <span>Pomodoro</span>
+</NavLink>
 export default function Sidebar() {
 
   return (
