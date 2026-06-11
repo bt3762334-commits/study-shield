@@ -11,6 +11,10 @@ import {
   updateStreak
 } from "../services/streakSystem";
 
+import {
+  scheduleReminder
+} from "../services/notificationService";
+
 export default function Tasks() {
 
   const [title, setTitle] = useState("");
@@ -50,6 +54,15 @@ export default function Tasks() {
 
     setTasks(updated);
     saveTasks(updated);
+
+    if (date && time) {
+      scheduleReminder(
+        date,
+        time,
+        `✅ ${title}`,
+        `لديك مهمة: ${description || title}`
+      );
+    }
 
     setTitle("");
     setDescription("");

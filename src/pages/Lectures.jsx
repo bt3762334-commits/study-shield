@@ -7,6 +7,10 @@ import {
   saveLectures
 } from "../services/lectureStorage";
 
+import {
+  scheduleReminder
+} from "../services/notificationService";
+
 export default function Lectures() {
 
   const [title, setTitle] = useState("");
@@ -46,6 +50,15 @@ export default function Lectures() {
     setLectures(updated);
 
     saveLectures(updated);
+
+    if (date && time) {
+      scheduleReminder(
+        date,
+        time,
+        `🎓 ${title}`,
+        `لديك محاضرة: ${description || title}`
+      );
+    }
 
     setTitle("");
     setDescription("");

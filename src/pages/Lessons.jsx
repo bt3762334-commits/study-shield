@@ -7,6 +7,10 @@ import {
   saveLessons
 } from "../services/lessonStorage";
 
+import {
+  scheduleReminder
+} from "../services/notificationService";
+
 export default function Lessons() {
 
   const [title, setTitle] = useState("");
@@ -43,6 +47,15 @@ export default function Lessons() {
     setLessons(updated);
 
     saveLessons(updated);
+
+    if (date && time) {
+      scheduleReminder(
+        date,
+        time,
+        `📚 ${title}`,
+        `لديك درس: ${description || title}`
+      );
+    }
 
     setTitle("");
     setDescription("");
