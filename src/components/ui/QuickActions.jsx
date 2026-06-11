@@ -8,7 +8,7 @@ export default function QuickActions() {
         to="/tasks"
         className="action-card"
       >
-        ✅
+        <div className="action-icon">✅</div>
         <span>إضافة مهمة</span>
       </Link>
 
@@ -16,7 +16,7 @@ export default function QuickActions() {
         to="/lessons"
         className="action-card"
       >
-        📚
+        <div className="action-icon">📚</div>
         <span>إضافة درس</span>
       </Link>
 
@@ -24,7 +24,7 @@ export default function QuickActions() {
         to="/lectures"
         className="action-card"
       >
-        🎓
+        <div className="action-icon">🎓</div>
         <span>إضافة محاضرة</span>
       </Link>
 
