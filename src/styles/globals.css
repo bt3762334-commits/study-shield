@@ -1436,3 +1436,83 @@ html {
 
   font-size:13px;
 }
+.profile-page{
+  display:flex;
+  flex-direction:column;
+  gap:24px;
+}
+
+.profile-card{
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(59,130,246,.15),
+      rgba(96,165,250,.05)
+    );
+
+  border:
+    1px solid rgba(255,255,255,.08);
+
+  border-radius:28px;
+
+  padding:40px;
+
+  text-align:center;
+}
+
+.profile-avatar{
+
+  font-size:90px;
+
+  margin-bottom:15px;
+}
+
+.profile-card h1{
+
+  margin-bottom:10px;
+}
+
+.profile-card p{
+
+  color:var(--muted);
+}
+
+.profile-stats{
+
+  display:grid;
+
+  grid-template-columns:
+    repeat(auto-fit,minmax(220px,1fr));
+
+  gap:20px;
+}
+
+.profile-stat{
+
+  background:var(--card);
+
+  border-radius:24px;
+
+  padding:30px;
+
+  text-align:center;
+
+  border:
+    1px solid rgba(255,255,255,.08);
+
+  transition:.3s;
+}
+
+.profile-stat:hover{
+
+  transform:
+    translateY(-4px);
+}
+
+.profile-stat h2{
+
+  font-size:34px;
+
+  margin-bottom:8px;
+}
