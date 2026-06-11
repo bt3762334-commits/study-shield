@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+
 import {
   House,
   CheckSquare,
@@ -6,22 +7,33 @@ import {
   GraduationCap,
   Trophy,
   Settings,
-  Shield
+  Shield,
+  User
 } from "lucide-react";
 
 export default function Sidebar() {
+
   return (
     <aside className="sidebar">
 
       <div className="logo">
-        <Shield size={30} />
+
+        <Shield size={32} />
+
         <div>
-          <h2>Study Shield</h2>
-          <span>Focus & Achieve</span>
+          <h2>
+            Study Shield
+          </h2>
+
+          <span>
+            Focus & Achieve
+          </span>
         </div>
+
       </div>
 
       <div className="sidebar-section">
+
         <p className="section-title">
           الرئيسية
         </p>
@@ -30,43 +42,63 @@ export default function Sidebar() {
 
           <NavLink to="/">
             <House size={20} />
-            <span>الرئيسية</span>
+            <span>
+              الرئيسية
+            </span>
           </NavLink>
 
           <NavLink to="/tasks">
             <CheckSquare size={20} />
-            <span>المهام</span>
+            <span>
+              المهام
+            </span>
           </NavLink>
 
           <NavLink to="/lessons">
             <BookOpen size={20} />
-            <span>الدروس</span>
+            <span>
+              الدروس
+            </span>
           </NavLink>
 
           <NavLink to="/lectures">
             <GraduationCap size={20} />
-            <span>المحاضرات</span>
+            <span>
+              المحاضرات
+            </span>
           </NavLink>
 
         </nav>
+
       </div>
 
       <div className="sidebar-section">
 
         <p className="section-title">
-          النظام
+          الحساب
         </p>
 
         <nav>
 
+          <NavLink to="/profile">
+            <User size={20} />
+            <span>
+              الملف الشخصي
+            </span>
+          </NavLink>
+
           <NavLink to="/achievements">
             <Trophy size={20} />
-            <span>الأوسمة</span>
+            <span>
+              الإنجازات
+            </span>
           </NavLink>
 
           <NavLink to="/settings">
             <Settings size={20} />
-            <span>الإعدادات</span>
+            <span>
+              الإعدادات
+            </span>
           </NavLink>
 
         </nav>
@@ -74,8 +106,15 @@ export default function Sidebar() {
       </div>
 
       <div className="sidebar-footer">
-        <span>🛡️ Study Shield</span>
-        <small>Version 1.0</small>
+
+        <span>
+          🛡️ Study Shield
+        </span>
+
+        <small>
+          Version 1.0
+        </small>
+
       </div>
 
     </aside>
