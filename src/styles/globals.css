@@ -1147,3 +1147,28 @@ button:active {
 .task-content p {
   line-height: 1.8;
 }
+.streak-card {
+  margin-top: 24px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(239,68,68,.15),
+      rgba(245,158,11,.10)
+    );
+
+  border:
+    1px solid rgba(245,158,11,.25);
+
+  border-radius: 24px;
+
+  padding: 24px;
+
+  text-align: center;
+}
+
+.streak-icon {
+  font-size: 50px;
+
+  margin-bottom: 12px;
+}
