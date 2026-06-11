@@ -6,16 +6,47 @@ import Lessons from "./pages/Lessons";
 import Lectures from "./pages/Lectures";
 import Achievements from "./pages/Achievements";
 import Settings from "./pages/Settings";
+import Profile from "./pages/Profile";
 
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/tasks" element={<Tasks />} />
-      <Route path="/lessons" element={<Lessons />} />
-      <Route path="/lectures" element={<Lectures />} />
-      <Route path="/achievements" element={<Achievements />} />
-      <Route path="/settings" element={<Settings />} />
+
+      <Route
+        path="/"
+        element={<Home />}
+      />
+
+      <Route
+        path="/tasks"
+        element={<Tasks />}
+      />
+
+      <Route
+        path="/lessons"
+        element={<Lessons />}
+      />
+
+      <Route
+        path="/lectures"
+        element={<Lectures />}
+      />
+
+      <Route
+        path="/achievements"
+        element={<Achievements />}
+      />
+
+      <Route
+        path="/profile"
+        element={<Profile />}
+      />
+
+      <Route
+        path="/settings"
+        element={<Settings />}
+      />
+
     </Routes>
   );
 }
