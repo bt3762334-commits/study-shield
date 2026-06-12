@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState } from "react";
 
 const UserContext = createContext();
 
@@ -6,7 +6,6 @@ export function UserProvider({ children }) {
   const [userName, setUserName] = useState(() => {
     return localStorage.getItem("studyShieldUserName") || "";
   });
-  const [showWelcome, setShowWelcome] = useState(false);
 
   const saveName = (name) => {
     localStorage.setItem("studyShieldUserName", name);
@@ -14,7 +13,7 @@ export function UserProvider({ children }) {
   };
 
   return (
-    <UserContext.Provider value={{ userName, saveName, showWelcome, setShowWelcome }}>
+    <UserContext.Provider value={{ userName, saveName }}>
       {children}
     </UserContext.Provider>
   );
