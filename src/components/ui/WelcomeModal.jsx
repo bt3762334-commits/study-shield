@@ -4,19 +4,20 @@ import { useUser } from "../../context/UserContext";
 export default function WelcomeModal() {
   const { saveName } = useUser();
   const [input, setInput] = useState("");
-  const [done, setDone] = useState(false);
+  const [step, setStep] = useState(1); // 1=name entry, 2=welcome message
 
   const handleSubmit = () => {
     const name = input.trim();
     if (!name) return;
     saveName(name);
-    setDone(true);
+    setStep(2);
+    setTimeout(() => {}, 100);
   };
 
-  if (done) {
+  if (step === 2) {
     return (
       <div className="welcome-overlay">
-        <div className="welcome-modal">
+        <div className="welcome-modal welcome-success">
           <div className="welcome-avatar">🛡️</div>
           <h1>مرحباً بك يا <span className="name-highlight">{input}</span>!</h1>
           <p>Study Shield جاهز لمساعدتك على التميز والإنجاز</p>
@@ -25,7 +26,7 @@ export default function WelcomeModal() {
             <span>🏆 اكسب إنجازات</span>
             <span>📈 قِس تقدمك</span>
           </div>
-          <button className="welcome-btn" onClick={() => saveName(input)}>
+          <button className="welcome-btn" onClick={() => {}}>
             لنبدأ 🚀
           </button>
         </div>

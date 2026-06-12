@@ -1,130 +1,102 @@
 import { NavLink } from "react-router-dom";
-import { Timer } from "lucide-react";
-
+import { useState } from "react";
 import {
-  House,
-  CheckSquare,
-  BookOpen,
-  GraduationCap,
-  Trophy,
-  Settings,
-  Shield,
-  User
+  House, CheckSquare, BookOpen, GraduationCap,
+  Trophy, Settings, Shield, User, Timer, Menu, X
 } from "lucide-react";
+import { useUser } from "../context/UserContext";
+
+const navItems = [
+  { to: "/",            icon: <House size={20} />,          label: "الرئيسية" },
+  { to: "/tasks",       icon: <CheckSquare size={20} />,    label: "المهام" },
+  { to: "/lessons",     icon: <BookOpen size={20} />,       label: "الدروس" },
+  { to: "/lectures",    icon: <GraduationCap size={20} />,  label: "المحاضرات" },
+  { to: "/pomodoro",    icon: <Timer size={20} />,          label: "بومودورو" },
+];
+
+const accountItems = [
+  { to: "/profile",     icon: <User size={20} />,           label: "الملف الشخصي" },
+  { to: "/achievements",icon: <Trophy size={20} />,         label: "الإنجازات" },
+  { to: "/settings",    icon: <Settings size={20} />,       label: "الإعدادات" },
+];
 
 export default function Sidebar() {
+  const { userName } = useUser();
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  const close = () => setMobileOpen(false);
 
   return (
-    <aside className="sidebar">
+    <>
+      {/* ---- زر الهامبرجر (موبايل فقط) ---- */}
+      <button
+        className="mobile-hamburger"
+        onClick={() => setMobileOpen(true)}
+        aria-label="القائمة"
+      >
+        <Menu size={24} />
+      </button>
 
-      <div className="logo">
+      {/* ---- overlay موبايل ---- */}
+      {mobileOpen && (
+        <div className="sidebar-overlay" onClick={close} />
+      )}
 
-        <Shield size={32} />
+      {/* ---- الشريط الجانبي ---- */}
+      <aside className={`sidebar ${mobileOpen ? "sidebar-open" : ""}`}>
+        {/* إغلاق موبايل */}
+        <button className="sidebar-close-btn" onClick={close}>
+          <X size={20} />
+        </button>
 
-        <div>
-          <h2>
-            Study Shield
-          </h2>
-
-          <span>
-            Focus & Achieve
-          </span>
+        {/* لوجو */}
+        <div className="logo">
+          <Shield size={32} />
+          <div>
+            <h2>Study Shield</h2>
+            <span>Focus & Achieve</span>
+          </div>
         </div>
 
-      </div>
+        {/* اسم المستخدم */}
+        {userName && (
+          <div className="sidebar-user">
+            <span className="sidebar-user-avatar">👤</span>
+            <span className="sidebar-user-name">{userName}</span>
+          </div>
+        )}
 
-      <div className="sidebar-section">
+        {/* تنقل رئيسي */}
+        <div className="sidebar-section">
+          <p className="section-title">الرئيسية</p>
+          <nav>
+            {navItems.map((item) => (
+              <NavLink key={item.to} to={item.to} onClick={close}>
+                {item.icon}
+                <span>{item.label}</span>
+              </NavLink>
+            ))}
+          </nav>
+        </div>
 
-        <p className="section-title">
-          الرئيسية
-        </p>
+        {/* حساب */}
+        <div className="sidebar-section">
+          <p className="section-title">الحساب</p>
+          <nav>
+            {accountItems.map((item) => (
+              <NavLink key={item.to} to={item.to} onClick={close}>
+                {item.icon}
+                <span>{item.label}</span>
+              </NavLink>
+            ))}
+          </nav>
+        </div>
 
-        <nav>
-
-          <NavLink to="/">
-            <House size={20} />
-            <span>
-              الرئيسية
-            </span>
-          </NavLink>
-
-          <NavLink to="/tasks">
-            <CheckSquare size={20} />
-            <span>
-              المهام
-            </span>
-          </NavLink>
-
-          <NavLink to="/lessons">
-            <BookOpen size={20} />
-            <span>
-              الدروس
-            </span>
-          </NavLink>
-
-          <NavLink to="/lectures">
-            <GraduationCap size={20} />
-            <span>
-              المحاضرات
-            </span>
-          </NavLink>
-
-          <NavLink to="/pomodoro">
-            <Timer size={20} />
-            <span>
-              بومودورو
-            </span>
-          </NavLink>
-
-        </nav>
-
-      </div>
-
-      <div className="sidebar-section">
-
-        <p className="section-title">
-          الحساب
-        </p>
-
-        <nav>
-
-          <NavLink to="/profile">
-            <User size={20} />
-            <span>
-              الملف الشخصي
-            </span>
-          </NavLink>
-
-          <NavLink to="/achievements">
-            <Trophy size={20} />
-            <span>
-              الإنجازات
-            </span>
-          </NavLink>
-
-          <NavLink to="/settings">
-            <Settings size={20} />
-            <span>
-              الإعدادات
-            </span>
-          </NavLink>
-
-        </nav>
-
-      </div>
-
-      <div className="sidebar-footer">
-
-        <span>
-          🛡️ Study Shield
-        </span>
-
-        <small>
-          Version 1.0
-        </small>
-
-      </div>
-
-    </aside>
+        <div className="sidebar-footer">
+          <span>🛡️ Study Shield</span>
+          <small>Version 2.0</small>
+        </div>
+      </aside>
+    </>
   );
 }
