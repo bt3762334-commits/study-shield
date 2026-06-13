@@ -1,30 +1,27 @@
-import { getTasks } from "../../services/taskStorage";
+import { useEffect } from "react";
+import {
+  requestNotificationPermission,
+  enableNotifications,
+} from "../../services/notificationService";
+import { soundService } from "../../services/soundService";
 
-export default function NotificationCenter() {
-  const tasks = getTasks();
+// هذا الكومبوننت بس بيتحقق من الإشعارات في الخلفية
+// البانر اتنقل للهيدر عشان يكون أكثر وضوحاً
+export default function NotificationManager() {
+  useEffect(() => {
+    const check = async () => {
+      if (!("Notification" in window)) return;
+      if (Notification.permission === "granted") {
+        enableNotifications();
+        if ("serviceWorker" in navigator) {
+          navigator.serviceWorker
+            .register("/service-worker.js")
+            .catch(() => {});
+        }
+      }
+    };
+    check();
+  }, []);
 
-  const pending =
-    tasks.filter(
-      task => !task.completed
-    ).length;
-
-  return (
-    <div className="notification-card">
-
-      <h3>
-        🔔 التنبيهات
-      </h3>
-
-      {pending > 0 ? (
-        <p>
-          لديك {pending} مهمة لم يتم إنجازها بعد
-        </p>
-      ) : (
-        <p>
-          🎉 لا توجد مهام معلقة
-        </p>
-      )}
-
-    </div>
-  );
+  return null;
 }
