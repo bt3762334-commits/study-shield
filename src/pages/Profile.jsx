@@ -4,7 +4,6 @@ import BackButton from "../components/ui/BackButton";
 import { getXPData } from "../services/xpSystem";
 import { getStreak } from "../services/streakSystem";
 import { getTasks } from "../services/taskStorage";
-import { getLessons } from "../services/lessonStorage";
 import { getLectures } from "../services/lectureStorage";
 import { useUser } from "../context/UserContext";
 import { generateCertificate } from "../services/certificateService";
@@ -15,9 +14,8 @@ export default function Profile() {
   const xpData   = getXPData();
   const streak   = getStreak();
   const tasks    = getTasks().filter(t => t.completed).length;
-  const lessons  = getLessons().filter(l => l.completed).length;
   const lectures = getLectures().filter(l => l.completed).length;
-  const total    = tasks + lessons + lectures;
+  const total    = tasks + lectures;
 
   const [editing, setEditing] = useState(false);
   const [nameInput, setNameInput] = useState(userName);
@@ -101,10 +99,6 @@ export default function Profile() {
           <div className="profile-stat">
             <h2>{tasks}</h2>
             <span>مهام مكتملة ✅</span>
-          </div>
-          <div className="profile-stat">
-            <h2>{lessons}</h2>
-            <span>دروس مكتملة 📚</span>
           </div>
           <div className="profile-stat">
             <h2>{lectures}</h2>
