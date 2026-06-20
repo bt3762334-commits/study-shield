@@ -1,7 +1,6 @@
 import { useState } from "react";
 import MainLayout from "../layout/MainLayout";
 import { getTasks } from "../services/taskStorage";
-import { getLessons } from "../services/lessonStorage";
 import { getLectures } from "../services/lectureStorage";
 import { getXPData } from "../services/xpSystem";
 import { useUser } from "../context/UserContext";
@@ -28,9 +27,8 @@ export default function Achievements() {
   const [certImg, setCertImg] = useState(null);
 
   const completedTasks    = getTasks().filter(t => t.completed).length;
-  const completedLessons  = getLessons().filter(l => l.completed).length;
   const completedLectures = getLectures().filter(l => l.completed).length;
-  const total = completedTasks + completedLessons + completedLectures;
+  const total = completedTasks + completedLectures;
 
   const isUnlocked = (a) =>
     a.xpBased ? xp >= a.threshold : total >= a.threshold;
