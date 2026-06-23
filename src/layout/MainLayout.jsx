@@ -1,24 +1,14 @@
-import Navbar from "../components/Navbar";
+import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
-import { useUser } from "../context/UserContext";
-import { useEffect } from "react";
-import XPBar from "../components/ui/XPBar";
 
 export default function MainLayout({ children }) {
-  const { getMotivation } = useUser();
-
-  useEffect(() => {
-    getMotivation();
-  }, []);
-
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Navbar />
-      <Header />
+    <div className="flex bg-bg text-text min-h-screen">
+      <Sidebar />
 
-      <div className="p-4">
-        <XPBar />
-        {children}
+      <div className="flex-1">
+        <Header />
+        <main className="p-6 md:p-10">{children}</main>
       </div>
     </div>
   );
