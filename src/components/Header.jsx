@@ -1,19 +1,10 @@
-import { useUser } from "../context/UserContext";
-
 export default function Header() {
-  const { userName, getMotivation } = useUser();
-
   return (
-    <header className="flex justify-between items-center p-4 bg-white shadow">
-      <h1 className="text-lg font-bold">
-        {userName ? `Welcome back, ${userName} 👋` : "Study Shield"}
-      </h1>
+    <header className="flex justify-between items-center px-6 py-4 border-b border-white/10">
+      <h1 className="text-lg">👋 Welcome</h1>
 
-      <button
-        onClick={getMotivation}
-        className="text-sm text-blue-600"
-      >
-        Motivation
+      <button className="bg-primary px-4 py-2 rounded-lg hover:opacity-80 transition">
+        Start Focus
       </button>
     </header>
   );
