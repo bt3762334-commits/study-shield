@@ -6,6 +6,7 @@ import BadgeCard from "../components/ui/BadgeCard";
 import StatsCard from "../components/ui/StatsCard";
 import StudyChart from "../components/charts/StudyChart";
 import CertificateCard from "../components/ui/CertificateCard";
+import GlassCard from "../components/ui/GlassCard";
 
 export default function Home() {
   const { userName, motivation } = useUser();
@@ -15,11 +16,11 @@ export default function Home() {
 
   return (
     <div>
-      <h2 className="text-xl font-bold mb-2">
-        {userName ? `Hello ${userName} 👋` : "Welcome"}
+      <h2 className="text-2xl font-bold mb-2">
+        {userName ? `Welcome back, ${userName} 👋` : "Welcome"}
       </h2>
 
-      <p className="text-gray-600 mb-6">{motivation}</p>
+      <p className="text-gray-500 mb-6">{motivation}</p>
 
       {/* Stats */}
       <div className="grid grid-cols-3 gap-4 mb-6">
@@ -35,29 +36,29 @@ export default function Home() {
       </div>
 
       {/* Chart */}
-      <div className="bg-white p-4 rounded-xl shadow mb-6">
+      <GlassCard>
         <h3 className="mb-2 font-semibold">Study Activity</h3>
         <StudyChart />
-      </div>
+      </GlassCard>
 
       {/* Certificate */}
       <CertificateCard />
 
       {/* Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
-        <div className="p-4 bg-white shadow rounded-xl">
+        <GlassCard>
           <h3 className="font-semibold">Today's Focus</h3>
           <p className="text-sm text-gray-500">
             Stay consistent and complete your tasks.
           </p>
-        </div>
+        </GlassCard>
 
-        <div className="p-4 bg-white shadow rounded-xl">
+        <GlassCard>
           <h3 className="font-semibold">Quick Start</h3>
           <p className="text-sm text-gray-500">
             Jump into your study session now.
           </p>
-        </div>
+        </GlassCard>
       </div>
     </div>
   );
