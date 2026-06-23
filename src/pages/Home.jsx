@@ -1,4 +1,6 @@
 import { useUser } from "../context/UserContext";
+import StreakCard from "../components/ui/StreakCard";
+import BadgeCard from "../components/ui/BadgeCard";
 
 export default function Home() {
   const { userName, motivation } = useUser();
@@ -10,6 +12,11 @@ export default function Home() {
       </h2>
 
       <p className="text-gray-600 mb-6">{motivation}</p>
+
+      <div className="grid grid-cols-2 gap-4 mb-6">
+        <StreakCard />
+        <BadgeCard />
+      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="p-4 bg-white shadow rounded-xl">
