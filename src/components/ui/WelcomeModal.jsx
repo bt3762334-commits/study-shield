@@ -4,7 +4,7 @@ import { useUser } from "../../context/UserContext";
 export default function WelcomeModal() {
   const { saveName } = useUser();
   const [input, setInput] = useState("");
-  const [step, setStep] = useState(1); // 1=name entry, 2=welcome message
+  const [step, setStep] = useState(1);
 
   const handleSubmit = () => {
     const name = input.trim();
@@ -21,11 +21,13 @@ export default function WelcomeModal() {
           <div className="welcome-avatar">🛡️</div>
           <h1>مرحباً بك يا <span className="name-highlight">{input}</span>!</h1>
           <p>Study Shield جاهز لمساعدتك على التميز والإنجاز</p>
+
           <div className="welcome-features">
             <span>✅ تتبع مهامك</span>
             <span>🏆 اكسب إنجازات</span>
             <span>📈 قِس تقدمك</span>
           </div>
+
           <button className="welcome-btn" onClick={() => {}}>
             لنبدأ 🚀
           </button>
@@ -40,6 +42,7 @@ export default function WelcomeModal() {
         <div className="welcome-avatar">🛡️</div>
         <h1>أهلاً وسهلاً!</h1>
         <p>ما اسمك؟ عشان نعرف نرحب بيك صح 😊</p>
+
         <input
           className="welcome-input"
           type="text"
@@ -49,6 +52,7 @@ export default function WelcomeModal() {
           onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
           autoFocus
         />
+
         <button
           className="welcome-btn"
           onClick={handleSubmit}
