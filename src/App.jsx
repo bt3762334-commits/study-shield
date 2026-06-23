@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import { useUser, UserProvider } from "./context/UserContext";
 import { GamificationProvider } from "./context/GamificationContext";
 import { AnalyticsProvider } from "./context/AnalyticsContext";
+import { IslamicProvider } from "./context/IslamicContext";
 
 import WelcomeModal from "./components/ui/WelcomeModal";
 import NotificationManager from "./components/ui/NotificationManager";
@@ -53,7 +54,9 @@ export default function App() {
     <UserProvider>
       <GamificationProvider>
         <AnalyticsProvider>
-          <AppInner />
+          <IslamicProvider>
+            <AppInner />
+          </IslamicProvider>
         </AnalyticsProvider>
       </GamificationProvider>
     </UserProvider>
