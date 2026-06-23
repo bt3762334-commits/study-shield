@@ -25,7 +25,6 @@ export default function Header() {
     day: "numeric",
   });
 
-  // تحية حسب الوقت
   const getGreeting = () => {
     const h = new Date().getHours();
     if (h < 12) return "صباح الخير";
@@ -64,7 +63,6 @@ export default function Header() {
 
   return (
     <>
-      {/* ---- شريط تفعيل الإشعارات في الأعلى ---- */}
       {showBanner && (
         <div className="notif-top-banner">
           <span className="notif-banner-icon">🔔</span>
@@ -83,7 +81,6 @@ export default function Header() {
         </div>
       )}
 
-      {/* ---- الهيدر الرئيسي ---- */}
       <header className="header">
         <div>
           <h1>
