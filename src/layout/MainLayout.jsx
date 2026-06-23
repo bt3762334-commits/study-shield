@@ -1,15 +1,22 @@
-import Sidebar from "../components/Sidebar";
 import Header from "../components/Header";
+import Sidebar from "../components/Sidebar";
 
-export default function MainLayout({ children }) {
+const MainLayout = ({ children }) => {
   return (
-    <div className="flex bg-[#0f172a] text-white min-h-screen">
+    <div style={{ display: "flex", minHeight: "100vh" }}>
+      
       <Sidebar />
 
-      <div className="flex-1">
+      <div style={{ flex: 1 }}>
         <Header />
-        <main className="p-6 md:p-10">{children}</main>
+
+        <main className="container" style={{ padding: "20px" }}>
+          {children}
+        </main>
       </div>
+
     </div>
   );
-}
+};
+
+export default MainLayout;
