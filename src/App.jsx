@@ -2,6 +2,8 @@ import { Routes, Route } from "react-router-dom";
 import { useUser, UserProvider } from "./context/UserContext";
 import WelcomeModal from "./components/ui/WelcomeModal";
 import NotificationManager from "./components/ui/NotificationManager";
+import MainLayout from "./layouts/MainLayout";
+
 import Pomodoro from "./pages/Pomodoro";
 import Home from "./pages/Home";
 import Tasks from "./pages/Tasks";
@@ -18,15 +20,17 @@ function AppInner() {
       <NotificationManager />
       {!userName && <WelcomeModal />}
 
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/tasks" element={<Tasks />} />
-        <Route path="/lectures" element={<Lectures />} />
-        <Route path="/pomodoro" element={<Pomodoro />} />
-        <Route path="/achievements" element={<Achievements />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/settings" element={<Settings />} />
-      </Routes>
+      <MainLayout>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/tasks" element={<Tasks />} />
+          <Route path="/lectures" element={<Lectures />} />
+          <Route path="/pomodoro" element={<Pomodoro />} />
+          <Route path="/achievements" element={<Achievements />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/settings" element={<Settings />} />
+        </Routes>
+      </MainLayout>
     </>
   );
 }
