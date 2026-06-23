@@ -33,13 +33,13 @@ export default function Home() {
 
   return (
     <MainLayout>
-      {/* ---- Hero ---- */}
       <section className="hero">
         <div>
           <h1>
             {getGreeting()}{userName ? `, ${userName}` : ""} 🛡️
           </h1>
           <p>ركز على التقدم وليس الكمال</p>
+
           {level && (
             <button
               className="hero-level-btn"
@@ -49,24 +49,21 @@ export default function Home() {
             </button>
           )}
         </div>
+
         <div className="hero-stats">
           <strong>{stats.progress}%</strong>
           <span>نسبة الإنجاز</span>
         </div>
       </section>
 
-      {/* ---- إجراءات سريعة ---- */}
       <QuickActions />
-
-      {/* ---- محتوى يومي ---- */}
       <DailyContent />
 
-      {/* ---- إحصائيات ---- */}
       <section className="stats-grid">
-        <StatCard title="المهام"      value={stats.tasks} />
-        <StatCard title="الدروس"      value={stats.lessons} />
-        <StatCard title="المحاضرات"   value={stats.lectures} />
-        <StatCard title="الإنجاز"     value={`${stats.progress}%`} />
+        <StatCard title="المهام" value={stats.tasks} />
+        <StatCard title="الدروس" value={stats.lessons} />
+        <StatCard title="المحاضرات" value={stats.lectures} />
+        <StatCard title="الإنجاز" value={`${stats.progress}%`} />
       </section>
 
       <ProgressCard progress={stats.progress} />
