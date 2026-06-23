@@ -2,178 +2,55 @@ import { getTasks } from "./taskStorage";
 import { getLessons } from "./lessonStorage";
 import { getLectures } from "./lectureStorage";
 
-const NOTIFICATION_STORAGE_KEY =
-  "studyShieldNotifications";
+const NOTIFICATION_STORAGE_KEY = "studyShieldNotifications";
 
-export const requestNotificationPermission =
-  async () => {
-    if (
-      !("Notification" in window)
-    ) {
-      console.error(
-        "❌ Browser does not support notifications"
-      );
-      return false;
-    }
+export const requestNotificationPermission = async () => {
+  if (!("Notification" in window)) return false;
 
-    console.log(
-      "📢 Current permission:",
-      Notification.permission
-    );
+  if (Notification.permission === "granted") return true;
 
-    if (
-      Notification.permission ===
-      "granted"
-    ) {
-      console.log(
-        "✅ Notifications already granted"
-      );
-      return true;
-    }
-
-    if (
-      Notification.permission ===
-      "denied"
-    ) {
-      console.error(
-        "❌ Notifications blocked by user"
-      );
-      alert(
-        "الإشعارات معطلة. يرجى تفعيلها من إعدادات المتصفح"
-      );
-      return false;
-    }
-
-    try {
-      console.log(
-        "🔔 Requesting notification permission..."
-      );
-      const permission =
-        await Notification
-          .requestPermission();
-
-      console.log(
-        "📢 Permission result:",
-        permission
-      );
-
-      if (
-        permission === "granted"
-      ) {
-        console.log(
-          "✅ Notifications enabled successfully"
-        );
-        return true;
-      } else {
-        console.error(
-          "❌ User denied notifications"
-        );
-        return false;
-      }
-    } catch (error) {
-      console.error(
-        "❌ Error requesting notification permission:",
-        error
-      );
-      return false;
-    }
-  };
-
-export const sendNotification = (
-  title,
-  options = {}
-) => {
-  if (
-    !("Notification" in window)
-  ) {
-    console.error(
-      "❌ Notifications not supported"
-    );
+  if (Notification.permission === "denied") {
+    alert("الإشعارات معطلة. فعّلها من إعدادات المتصفح");
     return false;
   }
 
-  if (
-    Notification.permission ===
-    "granted"
-  ) {
-    try {
-      new Notification(title, {
-        icon: "/favicon.ico",
-        badge: "/favicon.ico",
-        ...options
-      });
-      console.log(
-        "✅ Notification sent:",
-        title
-      );
-      return true;
-    } catch (error) {
-      console.error(
-        "❌ Error sending notification:",
-        error
-      );
-      return false;
-    }
-  } else {
-    console.warn(
-      "⚠️ Notification permission not granted"
-    );
-    return false;
-  }
+  const permission = await Notification.requestPermission();
+  return permission === "granted";
 };
 
-export const scheduleReminder = (
-  date,
-  time,
-  title,
-  description
-) => {
-  const reminderTime =
-    new Date(
-      `${date}T${time}`
-    );
+export const sendNotification = (title, options = {}) => {
+  if (Notification.permission !== "granted") return false;
 
+  new Notification(title, {
+    icon: "/favicon.ico",
+    badge: "/favicon.ico",
+    ...options
+  });
+
+  return true;
+};
+
+export const scheduleReminder = (date, time, title, description) => {
+  const reminderTime = new Date(`${date}T${time}`);
   const now = new Date();
 
-  const delayMs =
-    reminderTime - now;
+  const delay = reminderTime - now;
 
-  if (
-    delayMs > 0
-  ) {
-    setTimeout(
-      () => {
-        sendNotification(
-          title,
-          {
-            body: description,
-            tag: "study-reminder",
-            requireInteraction: true
-          }
-        );
+  if (delay > 0) {
+    setTimeout(() => {
+      sendNotification(title, {
+        body: description,
+        tag: "study-reminder",
+        requireInteraction: true
+      });
 
-        saveNotificationLog(
-          title,
-          description,
-          reminderTime
-        );
-      },
-      delayMs
-    );
+      saveNotificationLog(title, description, reminderTime);
+    }, delay);
   }
 };
 
-export const saveNotificationLog = (
-  title,
-  description,
-  time
-) => {
-  const logs =
-    JSON.parse(
-      localStorage.getItem(
-        NOTIFICATION_STORAGE_KEY
-      ) || "[]"
-    );
+export const saveNotificationLog = (title, description, time) => {
+  const logs = JSON.parse(localStorage.getItem(NOTIFICATION_STORAGE_KEY) || "[]");
 
   logs.push({
     id: Date.now(),
@@ -183,100 +60,49 @@ export const saveNotificationLog = (
     read: false
   });
 
-  localStorage.setItem(
-    NOTIFICATION_STORAGE_KEY,
-    JSON.stringify(logs)
-  );
+  localStorage.setItem(NOTIFICATION_STORAGE_KEY, JSON.stringify(logs));
 };
 
 export const getNotificationLogs = () => {
-  return JSON.parse(
-    localStorage.getItem(
-      NOTIFICATION_STORAGE_KEY
-    ) || "[]"
-  );
+  return JSON.parse(localStorage.getItem(NOTIFICATION_STORAGE_KEY) || "[]");
 };
 
-export const markNotificationAsRead = (
-  id
-) => {
-  const logs =
-    getNotificationLogs();
+export const markNotificationAsRead = (id) => {
+  const logs = getNotificationLogs();
 
   const updated = logs.map(log =>
-    log.id === id
-      ? { ...log, read: true }
-      : log
+    log.id === id ? { ...log, read: true } : log
   );
 
-  localStorage.setItem(
-    NOTIFICATION_STORAGE_KEY,
-    JSON.stringify(updated)
-  );
+  localStorage.setItem(NOTIFICATION_STORAGE_KEY, JSON.stringify(updated));
 };
 
-export const checkUpcomingItems =
-  () => {
-    const tasks = getTasks();
-    const lessons = getLessons();
-    const lectures = getLectures();
+export const checkUpcomingItems = () => {
+  const tasks = getTasks();
+  const lessons = getLessons();
+  const lectures = getLectures();
 
-    const allItems = [
-      ...tasks.map(t => ({
-        ...t,
-        type: "task",
-        emoji: "✅"
-      })),
-      ...lessons.map(l => ({
-        ...l,
-        type: "lesson",
-        emoji: "📚"
-      })),
-      ...lectures.map(l => ({
-        ...l,
-        type: "lecture",
-        emoji: "🎓"
-      }))
-    ];
+  const all = [
+    ...tasks.map(t => ({ ...t, type: "task", emoji: "✅" })),
+    ...lessons.map(l => ({ ...l, type: "lesson", emoji: "📚" })),
+    ...lectures.map(l => ({ ...l, type: "lecture", emoji: "🎓" }))
+  ];
 
-    const now = new Date();
+  const now = new Date();
 
-    const upcoming =
-      allItems.filter(item => {
-        if (item.completed) {
-          return false;
-        }
+  return all.filter(item => {
+    if (item.completed) return false;
+    if (!item.date || !item.time) return false;
 
-        if (
-          !item.date ||
-          !item.time
-        ) {
-          return false;
-        }
+    const time = new Date(`${item.date}T${item.time}`);
+    const diffHours = (time - now) / (1000 * 60 * 60);
 
-        const itemTime =
-          new Date(
-            `${item.date}T${item.time}`
-          );
-
-        const diffMs =
-          itemTime - now;
-
-        const diffHours =
-          diffMs / (1000 * 60 * 60);
-
-        return (
-          diffHours > 0 &&
-          diffHours <= 24
-        );
-      });
-
-    return upcoming;
-  };
+    return diffHours > 0 && diffHours <= 24;
+  });
+};
 
 export const enableNotifications = () => {
-  const upcoming =
-    checkUpcomingItems();
+  const upcoming = checkUpcomingItems();
 
   upcoming.forEach(item => {
     scheduleReminder(
@@ -287,22 +113,16 @@ export const enableNotifications = () => {
     );
   });
 
-  const checkInterval =
-    setInterval(() => {
-      const current =
-        checkUpcomingItems();
+  return setInterval(() => {
+    const current = checkUpcomingItems();
 
-      if (current.length > 0) {
-        current.forEach(item => {
-          scheduleReminder(
-            item.date,
-            item.time,
-            `${item.emoji} ${item.title}`,
-            `لديك ${item.type === "task" ? "مهمة" : item.type === "lesson" ? "درس" : "محاضرة"}: ${item.description || item.title}`
-          );
-        });
-      }
-    }, 60000);
-
-  return checkInterval;
+    current.forEach(item => {
+      scheduleReminder(
+        item.date,
+        item.time,
+        `${item.emoji} ${item.title}`,
+        `لديك ${item.type === "task" ? "مهمة" : item.type === "lesson" ? "درس" : "محاضرة"}: ${item.description || item.title}`
+      );
+    });
+  }, 60000);
 };
