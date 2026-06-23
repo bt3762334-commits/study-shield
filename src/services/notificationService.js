@@ -1,15 +1,7 @@
-/* =============================================
-   NOTIFICATION SERVICE
-   ============================================= */
-
 import { getTasks } from "./taskStorage";
 import { getLectures } from "./lectureStorage";
 
 const NOTIFICATION_STORAGE_KEY = "studyShieldNotifications";
-
-/* =============================================
-   PERMISSION HANDLING
-   ============================================= */
 
 export const requestNotificationPermission = async () => {
   if (!("Notification" in window)) {
@@ -35,12 +27,11 @@ export const requestNotificationPermission = async () => {
   }
 };
 
-/* =============================================
-   SEND NOTIFICATION
-   ============================================= */
-
 export const sendNotification = (title, options = {}) => {
-  if (!("Notification" in window)) return false;
+  if (!("Notification" in window)) {
+    console.error("❌ Notifications not supported");
+    return false;
+  }
 
   if (Notification.permission === "granted") {
     try {
@@ -55,12 +46,9 @@ export const sendNotification = (title, options = {}) => {
       return false;
     }
   }
+
   return false;
 };
-
-/* =============================================
-   SCHEDULER
-   ============================================= */
 
 export const scheduleReminder = (date, time, title, description) => {
   const reminderTime = new Date(`${date}T${time}`);
@@ -71,17 +59,14 @@ export const scheduleReminder = (date, time, title, description) => {
     setTimeout(() => {
       sendNotification(title, {
         body: description,
-        tag: `study-reminder-${Date.now()}`,
+        tag: "study-reminder",
         requireInteraction: true
       });
+
       saveNotificationLog(title, description, reminderTime);
     }, delayMs);
   }
 };
-
-/* =============================================
-   STORAGE (LOCALSTORAGE LOGS)
-   ============================================= */
 
 export const saveNotificationLog = (title, description, time) => {
   const logs = JSON.parse(
@@ -105,17 +90,11 @@ export const getNotificationLogs = () => {
 
 export const markNotificationAsRead = (id) => {
   const logs = getNotificationLogs();
-
   const updated = logs.map((log) =>
     log.id === id ? { ...log, read: true } : log
   );
-
   localStorage.setItem(NOTIFICATION_STORAGE_KEY, JSON.stringify(updated));
 };
-
-/* =============================================
-   UPCOMING ITEMS DETECTION
-   ============================================= */
 
 const typeLabel = (type) => (type === "task" ? "مهمة" : "محاضرة");
 
@@ -140,10 +119,6 @@ export const checkUpcomingItems = () => {
     return diffHours > 0 && diffHours <= 24;
   });
 };
-
-/* =============================================
-   MAIN ENABLE FUNCTION
-   ============================================= */
 
 export const enableNotifications = () => {
   const upcoming = checkUpcomingItems();
