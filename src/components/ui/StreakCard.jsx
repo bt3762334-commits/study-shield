@@ -1,12 +1,8 @@
 import { useEffect, useState } from "react";
-
-import {
-  getStreak
-} from "../../services/streakSystem";
+import { getStreak } from "../../services/streakSystem";
 
 export default function StreakCard() {
-  const [streak, setStreak] =
-    useState(0);
+  const [streak, setStreak] = useState(0);
 
   useEffect(() => {
     setStreak(getStreak());
