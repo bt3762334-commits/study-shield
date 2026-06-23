@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import { useUser, UserProvider } from "./context/UserContext";
 import { GamificationProvider } from "./context/GamificationContext";
+import { AnalyticsProvider } from "./context/AnalyticsContext";
 
 import WelcomeModal from "./components/ui/WelcomeModal";
 import NotificationManager from "./components/ui/NotificationManager";
@@ -41,7 +42,9 @@ export default function App() {
   return (
     <UserProvider>
       <GamificationProvider>
-        <AppInner />
+        <AnalyticsProvider>
+          <AppInner />
+        </AnalyticsProvider>
       </GamificationProvider>
     </UserProvider>
   );
