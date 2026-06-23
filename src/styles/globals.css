@@ -1,11 +1,16 @@
 /* =============================================
-   STUDY SHIELD — GLOBAL STYLES v2
+   RESET
    ============================================= */
 
 *, *::before, *::after {
-  margin: 0; padding: 0;
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
+
+/* =============================================
+   ROOT VARIABLES
+   ============================================= */
 
 :root {
   --bg:           #0b1120;
@@ -22,14 +27,20 @@
   --sidebar-w:    220px;
 }
 
-html { scroll-behavior: smooth; }
+/* =============================================
+   BASE STYLES
+   ============================================= */
+
+html {
+  scroll-behavior: smooth;
+}
 
 body {
   font-family: "Cairo", sans-serif;
   background:
-    radial-gradient(circle at top right,    rgba(59,130,246,.15), transparent 30%),
-    radial-gradient(circle at bottom left,  rgba(96,165,250,.10), transparent 35%),
-    radial-gradient(circle at center,       rgba(59,130,246,.05), transparent 50%),
+    radial-gradient(circle at top right, rgba(59,130,246,.15), transparent 30%),
+    radial-gradient(circle at bottom left, rgba(96,165,250,.10), transparent 35%),
+    radial-gradient(circle at center, rgba(59,130,246,.05), transparent 50%),
     #0b1120;
   color: var(--text);
   min-height: 100vh;
@@ -38,63 +49,29 @@ body {
 
 body::before {
   content: "";
-  position: fixed; inset: 0;
+  position: fixed;
+  inset: 0;
   background-image:
     linear-gradient(rgba(255,255,255,.015) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255,255,255,.015) 1px, transparent 1px);
   background-size: 40px 40px;
-  pointer-events: none; z-index: -1;
+  pointer-events: none;
+  z-index: -1;
 }
-
-a { text-decoration: none; }
-button { transition: .25s; cursor: pointer; }
-button:hover  { transform: translateY(-2px); }
-button:active { transform: translateY(0); }
 
 /* =============================================
-   NOTIFICATION TOP BANNER
+   GLOBAL ELEMENTS
    ============================================= */
 
-.notif-top-banner {
-  position: sticky;
-  top: 0;
-  z-index: 200;
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 12px 24px;
-  background: linear-gradient(90deg, rgba(59,130,246,.25), rgba(96,165,250,.15));
-  border-bottom: 1px solid rgba(59,130,246,.3);
-  backdrop-filter: blur(12px);
-  animation: slideDown .4s ease-out;
+a { text-decoration: none; }
+
+button {
+  transition: .25s;
+  cursor: pointer;
 }
 
-@keyframes slideDown {
-  from { opacity: 0; transform: translateY(-100%); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-.notif-banner-icon { font-size: 20px; }
-
-.notif-banner-text { flex: 1; font-size: 14px; }
-.notif-banner-text strong { color: #60a5fa; }
-
-.notif-banner-actions { display: flex; gap: 8px; align-items: center; }
-
-.notif-enable-btn {
-  padding: 8px 18px;
-  background: linear-gradient(135deg, #3b82f6, #60a5fa);
-  border: none; border-radius: 10px;
-  color: white; font-weight: 700; font-size: 13px;
-  white-space: nowrap;
-}
-
-.notif-dismiss-btn {
-  padding: 6px 10px;
-  background: rgba(255,255,255,.08);
-  border: 1px solid rgba(255,255,255,.1);
-  border-radius: 8px; color: var(--muted); font-size: 14px;
-}
+button:hover { transform: translateY(-2px); }
+button:active { transform: translateY(0); }
 
 /* =============================================
    LAYOUT
@@ -105,7 +82,10 @@ button:active { transform: translateY(0); }
   min-height: 100vh;
 }
 
-.main-content { flex: 1; min-width: 0; }
+.main-content {
+  flex: 1;
+  min-width: 0;
+}
 
 .page-content {
   max-width: 1400px;
@@ -132,162 +112,56 @@ button:active { transform: translateY(0); }
   z-index: 100;
 }
 
-.sidebar-close-btn {
-  display: none;
-  background: none; border: none;
-  color: var(--muted); padding: 4px;
-  margin-bottom: 8px; align-self: flex-end;
-}
-
-.mobile-hamburger {
-  display: none;
-  position: fixed;
-  top: 14px; right: 16px;
-  z-index: 300;
-  background: rgba(59,130,246,.2);
-  border: 1px solid rgba(59,130,246,.4);
-  border-radius: 12px; padding: 8px;
-  color: white;
-}
-
-.sidebar-overlay {
-  display: none;
-  position: fixed; inset: 0;
-  background: rgba(0,0,0,.6);
-  z-index: 150;
-}
-
-.logo {
-  display: flex; align-items: center; gap: 12px;
-  padding-bottom: 20px; margin-bottom: 16px;
-  border-bottom: 1px solid rgba(255,255,255,.08);
-}
-
-.logo h2 { font-size: 20px; }
-.logo > div span { color: var(--muted); font-size: 11px; }
-
-.sidebar-user {
-  display: flex; align-items: center; gap: 8px;
-  padding: 10px 12px;
-  background: rgba(59,130,246,.1);
-  border: 1px solid rgba(59,130,246,.2);
-  border-radius: 12px;
-  margin-bottom: 16px;
-}
-
-.sidebar-user-avatar { font-size: 18px; }
-.sidebar-user-name { font-size: 14px; font-weight: 600; color: var(--secondary); }
-
-.sidebar-section { margin-bottom: 24px; }
-
-.section-title {
-  color: var(--muted); font-size: 11px;
-  margin-bottom: 8px; text-transform: uppercase;
-  letter-spacing: .05em;
-}
-
 .sidebar nav {
-  display: flex; flex-direction: column; gap: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .sidebar nav a {
-  display: flex; align-items: center; gap: 10px;
-  padding: 10px 12px; border-radius: 12px;
-  color: var(--text); font-size: 14px; transition: .2s;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  color: var(--text);
+  font-size: 14px;
 }
 
-.sidebar nav a:hover { background: rgba(255,255,255,.05); }
+.sidebar nav a:hover {
+  background: rgba(255,255,255,.05);
+}
 
 .sidebar nav a.active {
   background: linear-gradient(135deg, rgba(59,130,246,.25), rgba(96,165,250,.1));
   border: 1px solid rgba(96,165,250,.25);
 }
 
-.sidebar-footer {
-  margin-top: auto; padding-top: 16px;
-  border-top: 1px solid rgba(255,255,255,.08);
-  display: flex; flex-direction: column; gap: 4px;
-}
-
-.sidebar-footer small { color: var(--muted); font-size: 11px; }
-
 /* =============================================
    HEADER
    ============================================= */
 
 .header {
-  display: flex; justify-content: space-between; align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 20px 30px;
   border-bottom: 1px solid rgba(255,255,255,.08);
-  position: sticky; top: 0;
+  position: sticky;
+  top: 0;
   background: rgba(11,17,32,.85);
   backdrop-filter: blur(12px);
   z-index: 90;
 }
 
-.header h1 { font-size: 22px; margin-bottom: 4px; }
-.header p  { color: var(--muted); font-size: 13px; }
-
-.header-username {
-  color: var(--secondary);
-  font-weight: 800;
-}
-
 /* =============================================
-   HERO
-   ============================================= */
-
-.hero {
-  display: flex; justify-content: space-between; align-items: center;
-  gap: 20px; position: relative; overflow: hidden;
-  margin-bottom: 28px;
-  background: linear-gradient(135deg, rgba(37,99,235,.15), rgba(56,189,248,.05));
-  border: 1px solid rgba(255,255,255,.08);
-  border-radius: 24px; min-height: 180px; padding: 28px 32px;
-}
-
-.hero::before {
-  content: "";
-  position: absolute; width: 250px; height: 250px; border-radius: 50%;
-  background: rgba(59,130,246,.12); top: -120px; right: -120px;
-}
-
-.hero h1 { font-size: 32px; margin-bottom: 8px; }
-.hero p  { color: var(--muted); font-size: 16px; margin-bottom: 14px; }
-
-.hero-level-btn {
-  display: inline-flex; align-items: center; gap: 8px;
-  padding: 8px 16px; border-radius: 20px;
-  background: rgba(59,130,246,.15);
-  border: 1px solid rgba(59,130,246,.3);
-  color: var(--secondary); font-size: 13px; font-weight: 600;
-  transition: all .25s;
-}
-
-.hero-level-btn:hover {
-  background: rgba(59,130,246,.25);
-  transform: translateY(-2px);
-}
-
-.hero-stats {
-  min-width: 130px; text-align: center;
-  background: rgba(255,255,255,.05);
-  border: 1px solid rgba(255,255,255,.08);
-  padding: 18px; border-radius: 18px;
-}
-
-.hero-stats strong { display: block; font-size: 32px; }
-.hero-stats span   { color: var(--muted); font-size: 13px; }
-
-/* =============================================
-   QUICK ACTIONS — 3 columns always visible
+   QUICK ACTIONS
    ============================================= */
 
 .quick-actions {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 14px;
-  margin: 0 0 28px;
 }
 
 .action-card {
@@ -295,24 +169,15 @@ button:active { transform: translateY(0); }
   border: 1px solid rgba(255,255,255,.08);
   border-radius: 18px;
   padding: 18px 12px;
-  min-height: 100px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  gap: 10px;
+  justify-content: center;
 }
-.task-form button {
-  width: 100%;
-  padding: 14px;
-  border: none;
-  border-radius: 16px;
-  color: white;
-  font-size: 15px;
-  font-weight: 700;
-  background: linear-gradient(135deg, #3b82f6, #60a5fa);
-  box-shadow: 0 14px 24px rgba(59,130,246,.18);
-}
+
+/* =============================================
+   TASKS
+   ============================================= */
 
 .section-card {
   margin-top: 22px;
@@ -321,8 +186,6 @@ button:active { transform: translateY(0); }
   border-radius: 22px;
   padding: 22px;
 }
-
-.section-card h2 { margin-bottom: 18px; }
 
 .tasks-list {
   display: flex;
@@ -337,51 +200,14 @@ button:active { transform: translateY(0); }
   padding: 18px;
   display: flex;
   justify-content: space-between;
-  gap: 14px;
   align-items: flex-start;
+  gap: 14px;
   transition: .3s;
 }
 
-.task-card:hover {
-  transform: translateY(-2px);
-  border-color: rgba(59,130,246,.2);
-}
-
-.task-content {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
-
-.task-content span {
-  font-size: 16px;
-  font-weight: 600;
-}
-
-.task-content p {
-  color: var(--muted);
-  line-height: 1.7;
-  font-size: 13px;
-}
-
-.task-meta {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.task-meta span {
-  background: rgba(255,255,255,.05);
-  padding: 4px 10px;
-  border-radius: 999px;
-  font-size: 12px;
-}
-
-.priority {
-  padding: 4px 10px;
-  border-radius: 999px;
-  font-size: 11px;
-}
+/* =============================================
+   TASK PRIORITY
+   ============================================= */
 
 .priority.high {
   background: rgba(239,68,68,.2);
@@ -398,70 +224,89 @@ button:active { transform: translateY(0); }
   color: #77ffab;
 }
 
-.task-actions {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-  flex-wrap: wrap;
+/* =============================================
+   ACHIEVEMENTS
+   ============================================= */
+
+.achievements-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  padding: 20px;
+  border-radius: 20px;
+  background: rgba(255,255,255,.03);
 }
 
-.task-actions button {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  border: none;
-  border-radius: 14px;
-  padding: 8px 14px;
-  color: white;
-  background: rgba(255,255,255,.08);
-  font-size: 13px;
+.achievement-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 16px;
 }
 
-.task-actions button:hover {
-  background: rgba(255,255,255,.12);
-}
-
-.task-actions button.delete {
-  background: rgba(248,113,113,.18);
-  color: #fee2e2;
-  border: 1px solid rgba(248,113,113,.25);
-}
-
-.task-actions button.delete:hover {
-  background: rgba(248,113,113,.28);
-}
-
-.task-actions input[type="checkbox"] {
-  width: 16px;
-  height: 16px;
-  cursor: pointer;
-}
-
-.completed {
-  text-decoration: line-through;
-  color: rgba(255,255,255,.45);
-}
-
-.empty-state {
+.achievement-card {
+  background: var(--card);
+  border-radius: 20px;
+  padding: 22px;
   text-align: center;
-  padding: 24px;
-  color: var(--muted);
+  opacity: .45;
 }
 
-.empty-state h4 {
-  font-size: 15px;
-  margin-bottom: 6px;
+/* =============================================
+   CERTIFICATE
+   ============================================= */
+
+.certificate-section {
+  margin-top: 32px;
+  text-align: center;
+  padding: 30px;
+  border-radius: 22px;
+  background: rgba(255,255,255,.03);
 }
 
-.back-btn {
-  border: none;
-  background: rgba(255,255,255,.06);
-  color: white;
-  padding: 10px 16px;
-  border-radius: 12px;
-  margin-bottom: 18px;
+/* =============================================
+   PROFILE
+   ============================================= */
+
+.profile-page {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
 }
 
-.back-btn:hover {
-  background: rgba(59,130,246,.2);
+.profile-card {
+  text-align: center;
+  padding: 36px;
+  border-radius: 26px;
+  background: linear-gradient(135deg, rgba(59,130,246,.15), rgba(96,165,250,.05));
+}
+
+/* =============================================
+   SETTINGS
+   ============================================= */
+
+.settings-card {
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 20px;
+  padding: 22px;
+}
+
+/* =============================================
+   RESPONSIVE
+   ============================================= */
+
+@media (max-width: 768px) {
+  .quick-actions {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .task-card {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .quick-actions {
+    grid-template-columns: 1fr;
+  }
 }
