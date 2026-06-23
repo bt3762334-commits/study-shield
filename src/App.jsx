@@ -7,6 +7,7 @@ import WelcomeModal from "./components/ui/WelcomeModal";
 import NotificationManager from "./components/ui/NotificationManager";
 import MainLayout from "./layouts/MainLayout";
 
+import Landing from "./pages/Landing";
 import Pomodoro from "./pages/Pomodoro";
 import Home from "./pages/Home";
 import Tasks from "./pages/Tasks";
@@ -23,17 +24,26 @@ function AppInner() {
       <NotificationManager />
       {!userName && <WelcomeModal />}
 
-      <MainLayout>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/tasks" element={<Tasks />} />
-          <Route path="/lectures" element={<Lectures />} />
-          <Route path="/pomodoro" element={<Pomodoro />} />
-          <Route path="/achievements" element={<Achievements />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/settings" element={<Settings />} />
-        </Routes>
-      </MainLayout>
+      <Routes>
+        <Route path="/landing" element={<Landing />} />
+
+        <Route
+          path="*"
+          element={
+            <MainLayout>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/tasks" element={<Tasks />} />
+                <Route path="/lectures" element={<Lectures />} />
+                <Route path="/pomodoro" element={<Pomodoro />} />
+                <Route path="/achievements" element={<Achievements />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/settings" element={<Settings />} />
+              </Routes>
+            </MainLayout>
+          }
+        />
+      </Routes>
     </>
   );
 }
