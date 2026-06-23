@@ -1,12 +1,17 @@
 /* =============================================
-   RESET & ROOT
+   STUDY SHIELD — GLOBAL STYLES v2 (ORGANIZED)
    ============================================= */
 
+/* ---------- RESET ---------- */
 *, *::before, *::after {
-  margin: 0; padding: 0;
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
+html { scroll-behavior: smooth; }
+
+/* ---------- VARIABLES ---------- */
 :root {
   --bg: #0b1120;
   --sidebar: #111827;
@@ -22,12 +27,7 @@
   --sidebar-w: 220px;
 }
 
-html { scroll-behavior: smooth; }
-
-/* =============================================
-   BASE STYLES
-   ============================================= */
-
+/* ---------- BASE ---------- */
 body {
   font-family: "Cairo", sans-serif;
   background:
@@ -42,7 +42,8 @@ body {
 
 body::before {
   content: "";
-  position: fixed; inset: 0;
+  position: fixed;
+  inset: 0;
   background-image:
     linear-gradient(rgba(255,255,255,.015) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255,255,255,.015) 1px, transparent 1px);
@@ -52,42 +53,14 @@ body::before {
 }
 
 a { text-decoration: none; }
-button { transition: .25s; cursor: pointer; }
+
+button {
+  transition: .25s;
+  cursor: pointer;
+}
+
 button:hover { transform: translateY(-2px); }
 button:active { transform: translateY(0); }
-
-/* =============================================
-   NOTIFICATION TOP BANNER
-   ============================================= */
-
-.notif-top-banner { ... }
-@keyframes slideDown { ... }
-
-.notif-banner-icon { font-size: 20px; }
-.notif-banner-text { flex: 1; font-size: 14px; }
-.notif-banner-text strong { color: #60a5fa; }
-
-.notif-banner-actions { display: flex; gap: 8px; align-items: center; }
-
-.notif-enable-btn {
-  padding: 8px 18px;
-  background: linear-gradient(135deg, #3b82f6, #60a5fa);
-  border: none;
-  border-radius: 10px;
-  color: white;
-  font-weight: 700;
-  font-size: 13px;
-  white-space: nowrap;
-}
-
-.notif-dismiss-btn {
-  padding: 6px 10px;
-  background: rgba(255,255,255,.08);
-  border: 1px solid rgba(255,255,255,.1);
-  border-radius: 8px;
-  color: var(--muted);
-  font-size: 14px;
-}
 
 /* =============================================
    LAYOUT
@@ -98,7 +71,10 @@ button:active { transform: translateY(0); }
   min-height: 100vh;
 }
 
-.main-content { flex: 1; min-width: 0; }
+.main-content {
+  flex: 1;
+  min-width: 0;
+}
 
 .page-content {
   max-width: 1400px;
@@ -107,114 +83,205 @@ button:active { transform: translateY(0); }
 }
 
 /* =============================================
-   SIDEBAR
-   ============================================= */
-
-.sidebar { ... }
-.sidebar-close-btn { ... }
-.mobile-hamburger { ... }
-.sidebar-overlay { ... }
-
-/* باقي sidebar styles كما هي بدون تعديل */
-
-/* =============================================
    HEADER
    ============================================= */
 
-.header { ... }
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 30px;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  position: sticky;
+  top: 0;
+  background: rgba(11,17,32,.85);
+  backdrop-filter: blur(12px);
+  z-index: 90;
+}
+
+.header h1 { font-size: 22px; margin-bottom: 4px; }
+.header p { color: var(--muted); font-size: 13px; }
 
 /* =============================================
-   HERO
+   SIDEBAR
    ============================================= */
 
-.hero { ... }
+.sidebar {
+  width: var(--sidebar-w);
+  background: var(--sidebar);
+  border-left: 1px solid rgba(255,255,255,.08);
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  flex-shrink: 0;
+  z-index: 100;
+}
+
+/* mobile sidebar */
+.sidebar-close-btn { display: none; }
+
+.mobile-hamburger {
+  display: none;
+  position: fixed;
+  top: 14px;
+  right: 16px;
+  z-index: 300;
+}
+
+.sidebar-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.6);
+  z-index: 150;
+}
 
 /* =============================================
-   QUICK ACTIONS
+   HERO (Home.jsx)
+   ============================================= */
+
+.hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 28px;
+  padding: 28px 32px;
+  border-radius: 24px;
+}
+
+.hero h1 { font-size: 32px; }
+.hero p { color: var(--muted); font-size: 16px; }
+
+.hero-level-btn {
+  padding: 8px 16px;
+  border-radius: 20px;
+  background: rgba(59,130,246,.15);
+  border: 1px solid rgba(59,130,246,.3);
+  color: var(--secondary);
+}
+
+/* =============================================
+   QUICK ACTIONS (QuickActions.jsx)
    ============================================= */
 
 .quick-actions {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 14px;
+  margin-bottom: 28px;
+}
+
+.action-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100px;
+  border-radius: 18px;
 }
 
 /* =============================================
-   TASKS
+   STATS (StatCard.jsx + Home)
    ============================================= */
 
-.task-form button { ... }
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
 
-.section-card { ... }
-.tasks-list { ... }
-.task-card { ... }
+.stat-card {
+  background: rgba(255,255,255,.03);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 20px;
+  padding: 22px;
+  text-align: center;
+}
 
 /* =============================================
-   PRIORITY & TASK UI
+   PROGRESS (ProgressCard.jsx)
    ============================================= */
 
-.priority.high { ... }
-.priority.medium { ... }
-.priority.low { ... }
+.progress-card {
+  background: rgba(255,255,255,.03);
+  border-radius: 20px;
+  padding: 20px;
+}
 
 /* =============================================
-   ACHIEVEMENTS
+   XP / STREAK
    ============================================= */
 
-.achievements-summary { ... }
-.achievement-grid { ... }
+.xp-card,
+.streak-card {
+  background: rgba(255,255,255,.03);
+  border-radius: 20px;
+  padding: 22px;
+}
 
 /* =============================================
-   CERTIFICATE
+   TASKS (UpcomingTasks + Achievements pages)
    ============================================= */
 
-/* كما هو بدون تعديل */
+.task-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+}
 
 /* =============================================
-   MODALS
+   ACHIEVEMENTS (Achievements.jsx)
    ============================================= */
 
-.level-modal-overlay { ... }
-.welcome-overlay { ... }
+.achievements-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  padding: 20px;
+  border-radius: 20px;
+}
 
-/* =============================================
-   PROFILE
-   ============================================= */
+.achievement-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 16px;
+}
 
-.profile-page { ... }
-.profile-card { ... }
+.achievement-card {
+  border-radius: 20px;
+  padding: 22px;
+}
 
 /* =============================================
    SETTINGS
    ============================================= */
 
-.settings-page { ... }
-.settings-card { ... }
-
-/* =============================================
-   POMODORO
-   ============================================= */
-
-.pomodoro-card { ... }
-
-/* =============================================
-   DASHBOARD COMPONENTS
-   ============================================= */
-
-.dashboard-grid { ... }
-
-/* =============================================
-   ANIMATIONS
-   ============================================= */
-
-@keyframes bounce { ... }
+.settings-card {
+  display: flex;
+  justify-content: space-between;
+  padding: 22px;
+  border-radius: 20px;
+}
 
 /* =============================================
    RESPONSIVE
    ============================================= */
 
-@media (max-width: 1024px) { ... }
+@media (max-width: 1024px) {
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+}
 
-@media (max-width: 768px) { ... }
+@media (max-width: 768px) {
+  .quick-actions { grid-template-columns: repeat(3, 1fr); }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .hero { flex-direction: column; text-align: center; }
+}
 
-@media (max-width: 480px) { ... }
+@media (max-width: 480px) {
+  .stats-grid { grid-template-columns: 1fr; }
+}
