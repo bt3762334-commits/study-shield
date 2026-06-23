@@ -1,27 +1,22 @@
-import { Routes, Route } from "react-router-dom";
-import MainLayout from "./layouts/MainLayout";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import MainLayout from "./layout/MainLayout";
 
 import Home from "./pages/Home";
 import Tasks from "./pages/Tasks";
-import Pomodoro from "./pages/Pomodoro";
-import Settings from "./pages/Settings";
+import Quran from "./pages/Quran";
 
-export default function App() {
+function App() {
   return (
-    <Routes>
-      <Route
-        path="*"
-        element={
-          <MainLayout>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/tasks" element={<Tasks />} />
-              <Route path="/pomodoro" element={<Pomodoro />} />
-              <Route path="/settings" element={<Settings />} />
-            </Routes>
-          </MainLayout>
-        }
-      />
-    </Routes>
+    <BrowserRouter>
+      <MainLayout>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/tasks" element={<Tasks />} />
+          <Route path="/quran" element={<Quran />} />
+        </Routes>
+      </MainLayout>
+    </BrowserRouter>
   );
 }
+
+export default App;
