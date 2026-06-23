@@ -1,130 +1,55 @@
-import { useState } from "react";
-import MainLayout from "../layout/MainLayout";
-import { getTasks } from "../services/taskStorage";
-import { getLectures } from "../services/lectureStorage";
-import { getXPData } from "../services/xpSystem";
-import { useUser } from "../context/UserContext";
-import { generateCertificate } from "../services/certificateService";
-import LevelModal from "../components/ui/LevelModal";
+import { getTasks } from "../../services/taskStorage";
+import { getLectures } from "../../services/lectureStorage";
+import { getXPData } from "../../services/xpSystem";
 
-const achievementsList = [
-  { icon: "🌱", title: "أول خطوة",    desc: "أنجز عملاً واحداً",         threshold: 1,   message: "بداية عظيمة! كل رحلة تبدأ بخطوة." },
-  { icon: "🥉", title: "5 إنجازات",   desc: "أنجز 5 أعمال",              threshold: 5,   message: "5 إنجازات! العادة بدأت تتشكل 💪" },
-  { icon: "🥈", title: "10 إنجازات",  desc: "أنجز 10 أعمال",             threshold: 10,  message: "10! نصف الطريق للذهب، واصل! 🔥" },
-  { icon: "🥇", title: "25 إنجاز",    desc: "أنجز 25 عملاً",             threshold: 25,  message: "25 إنجاز! أنت تُقاتل بجد 🌟" },
-  { icon: "💎", title: "50 إنجاز",    desc: "أنجز 50 عملاً",             threshold: 50,  message: "50! هذا مستوى الأبطال الحقيقيين 💎" },
-  { icon: "🏆", title: "100 إنجاز",   desc: "أنجز 100 عمل",              threshold: 100, message: "100 إنجاز!! أسطورة Study Shield! 🏆" },
-  { icon: "⚡", title: "100 XP",      desc: "اجمع 100 نقطة خبرة",        threshold: 100, xpBased: true, message: "البرونز في متناول يدك! 🥉" },
-  { icon: "🌟", title: "500 XP",      desc: "اجمع 500 نقطة خبرة",        threshold: 500, xpBased: true, message: "500 XP! قريب من الذهب 🥇" },
-  { icon: "🚀", title: "1000 XP",     desc: "اجمع 1000 نقطة خبرة",       threshold: 1000, xpBased: true, message: "أسطوري! الـ1000 XP وصلت 🚀" },
+const achievements = [
+  { icon: "🌱", title: "أول خطوة",  threshold: 1  },
+  { icon: "🥉", title: "5 إنجازات", threshold: 5  },
+  { icon: "🥈", title: "10 إنجازات", threshold: 10 },
+  { icon: "🥇", title: "25 إنجاز",  threshold: 25 },
+  { icon: "💎", title: "50 إنجاز",  threshold: 50 },
+  { icon: "🏆", title: "100 إنجاز", threshold: 100 },
 ];
 
-export default function Achievements() {
-  const { userName } = useUser();
-  const { xp, level } = getXPData();
-  const [activeMsg, setActiveMsg] = useState(null);
-  const [showLevelModal, setShowLevelModal] = useState(false);
-  const [certImg, setCertImg] = useState(null);
+export default function AchievementPreview() {
+  const completedTasks = getTasks().filter((t) => t.completed).length;
+  const completedLectures = getLectures().filter((l) => l.completed).length;
 
-  const completedTasks    = getTasks().filter(t => t.completed).length;
-  const completedLectures = getLectures().filter(l => l.completed).length;
   const total = completedTasks + completedLectures;
+  const { xp } = getXPData();
 
-  const isUnlocked = (a) =>
-    a.xpBased ? xp >= a.threshold : total >= a.threshold;
-
-  const handleCertificate = () => {
-    const img = generateCertificate(userName || "بطل", xp, level);
-    setCertImg(img);
-  };
-
-  const downloadCert = () => {
-    const a = document.createElement("a");
-    a.href = certImg;
-    a.download = `study-shield-certificate-${userName || "user"}.png`;
-    a.click();
-  };
+  const xpProgress = Math.min(xp % 100, 100);
 
   return (
-    <MainLayout>
-      <h1 className="page-title">🏆 الإنجازات</h1>
+    <div className="dashboard-card">
+      <h3>🏆 الإنجازات الأخيرة</h3>
 
-      {/* ---- ملخص XP ---- */}
-      <div
-        className="achievements-summary"
-        onClick={() => setShowLevelModal(true)}
-        style={{ cursor: "pointer" }}
-      >
-        <div className="achievements-summary-stat">
-          <strong>{total}</strong>
-          <span>إجمالي الإنجازات</span>
-        </div>
-        <div className="achievements-summary-stat">
-          <strong>{xp}</strong>
-          <span>نقاط XP</span>
-        </div>
-        <div className="achievements-summary-stat level-clickable">
-          <strong>{level}</strong>
-          <span>مستواك — اضغط 💬</span>
-        </div>
-      </div>
+      <div className="achievement-preview-grid">
+        {achievements.map((a, i) => {
+          const unlocked = total >= a.threshold;
 
-      {/* ---- شبكة الأوسمة ---- */}
-      <div className="achievement-grid">
-        {achievementsList.map((a, i) => {
-          const unlocked = isUnlocked(a);
           return (
             <div
               key={i}
-              className={`achievement-card ${unlocked ? "unlocked" : ""}`}
-              onClick={() => unlocked && setActiveMsg(a.message)}
-              style={{ cursor: unlocked ? "pointer" : "default" }}
+              className={`achievement-preview-item ${unlocked ? "unlocked" : ""}`}
             >
-              <div className="achievement-icon">{a.icon}</div>
-              <h3>{a.title}</h3>
-              <p className="achievement-desc">{a.desc}</p>
-              <p className="achievement-status">
-                {unlocked ? "✅ تم فتحه" : "🔒 لم يُفتح بعد"}
-              </p>
+              <span className="achievement-preview-icon">{a.icon}</span>
+              <span className="achievement-preview-title">{a.title}</span>
             </div>
           );
         })}
       </div>
 
-      {/* ---- شهادة 100 XP ---- */}
-      {xp >= 100 && (
-        <div className="certificate-section">
-          <h2>🎓 شهادتك الإلكترونية</h2>
-          <p>حققت {xp} XP — أنت تستحق شهادة بذلك!</p>
-          <button className="cert-btn" onClick={handleCertificate}>
-            🎓 استخرج شهادتي
-          </button>
+      <div className="xp-mini-bar">
+        <span className="xp-mini-label">{xp} XP</span>
 
-          {certImg && (
-            <div className="cert-preview">
-              <img src={certImg} alt="شهادة إنجاز" />
-              <button className="cert-download-btn" onClick={downloadCert}>
-                ⬇️ تحميل الشهادة
-              </button>
-            </div>
-          )}
+        <div className="xp-mini-track">
+          <div
+            className="xp-mini-fill"
+            style={{ width: `${xpProgress}%` }}
+          />
         </div>
-      )}
-
-      {/* ---- رسالة الوسام ---- */}
-      {activeMsg && (
-        <div className="achievement-msg-overlay" onClick={() => setActiveMsg(null)}>
-          <div className="achievement-msg-box" onClick={(e) => e.stopPropagation()}>
-            <p>{activeMsg}</p>
-            <button onClick={() => setActiveMsg(null)}>رائع! 🎉</button>
-          </div>
-        </div>
-      )}
-
-      {/* ---- رسالة المستوى ---- */}
-      {showLevelModal && (
-        <LevelModal level={level} onClose={() => setShowLevelModal(false)} />
-      )}
-    </MainLayout>
+      </div>
+    </div>
   );
 }
