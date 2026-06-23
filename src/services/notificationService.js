@@ -1,56 +1,92 @@
+/* =============================================
+   NOTIFICATION SERVICE
+   ============================================= */
+
 import { getTasks } from "./taskStorage";
-import { getLessons } from "./lessonStorage";
 import { getLectures } from "./lectureStorage";
 
 const NOTIFICATION_STORAGE_KEY = "studyShieldNotifications";
 
+/* =============================================
+   PERMISSION HANDLING
+   ============================================= */
+
 export const requestNotificationPermission = async () => {
-  if (!("Notification" in window)) return false;
-
-  if (Notification.permission === "granted") return true;
-
-  if (Notification.permission === "denied") {
-    alert("الإشعارات معطلة. فعّلها من إعدادات المتصفح");
+  if (!("Notification" in window)) {
+    console.error("❌ Browser does not support notifications");
     return false;
   }
 
-  const permission = await Notification.requestPermission();
-  return permission === "granted";
+  if (Notification.permission === "granted") {
+    return true;
+  }
+
+  if (Notification.permission === "denied") {
+    alert("الإشعارات معطلة. يرجى تفعيلها من إعدادات المتصفح");
+    return false;
+  }
+
+  try {
+    const permission = await Notification.requestPermission();
+    return permission === "granted";
+  } catch (error) {
+    console.error("❌ Error requesting notification permission:", error);
+    return false;
+  }
 };
+
+/* =============================================
+   SEND NOTIFICATION
+   ============================================= */
 
 export const sendNotification = (title, options = {}) => {
-  if (Notification.permission !== "granted") return false;
+  if (!("Notification" in window)) return false;
 
-  new Notification(title, {
-    icon: "/favicon.ico",
-    badge: "/favicon.ico",
-    ...options
-  });
-
-  return true;
+  if (Notification.permission === "granted") {
+    try {
+      new Notification(title, {
+        icon: "/favicon.ico",
+        badge: "/favicon.ico",
+        ...options
+      });
+      return true;
+    } catch (error) {
+      console.error("❌ Error sending notification:", error);
+      return false;
+    }
+  }
+  return false;
 };
+
+/* =============================================
+   SCHEDULER
+   ============================================= */
 
 export const scheduleReminder = (date, time, title, description) => {
   const reminderTime = new Date(`${date}T${time}`);
   const now = new Date();
+  const delayMs = reminderTime - now;
 
-  const delay = reminderTime - now;
-
-  if (delay > 0) {
+  if (delayMs > 0) {
     setTimeout(() => {
       sendNotification(title, {
         body: description,
-        tag: "study-reminder",
+        tag: `study-reminder-${Date.now()}`,
         requireInteraction: true
       });
-
       saveNotificationLog(title, description, reminderTime);
-    }, delay);
+    }, delayMs);
   }
 };
 
+/* =============================================
+   STORAGE (LOCALSTORAGE LOGS)
+   ============================================= */
+
 export const saveNotificationLog = (title, description, time) => {
-  const logs = JSON.parse(localStorage.getItem(NOTIFICATION_STORAGE_KEY) || "[]");
+  const logs = JSON.parse(
+    localStorage.getItem(NOTIFICATION_STORAGE_KEY) || "[]"
+  );
 
   logs.push({
     id: Date.now(),
@@ -70,59 +106,69 @@ export const getNotificationLogs = () => {
 export const markNotificationAsRead = (id) => {
   const logs = getNotificationLogs();
 
-  const updated = logs.map(log =>
+  const updated = logs.map((log) =>
     log.id === id ? { ...log, read: true } : log
   );
 
   localStorage.setItem(NOTIFICATION_STORAGE_KEY, JSON.stringify(updated));
 };
 
+/* =============================================
+   UPCOMING ITEMS DETECTION
+   ============================================= */
+
+const typeLabel = (type) => (type === "task" ? "مهمة" : "محاضرة");
+
 export const checkUpcomingItems = () => {
   const tasks = getTasks();
-  const lessons = getLessons();
   const lectures = getLectures();
 
-  const all = [
-    ...tasks.map(t => ({ ...t, type: "task", emoji: "✅" })),
-    ...lessons.map(l => ({ ...l, type: "lesson", emoji: "📚" })),
-    ...lectures.map(l => ({ ...l, type: "lecture", emoji: "🎓" }))
+  const allItems = [
+    ...tasks.map((t) => ({ ...t, type: "task", emoji: "✅" })),
+    ...lectures.map((l) => ({ ...l, type: "lecture", emoji: "🎓" }))
   ];
 
   const now = new Date();
 
-  return all.filter(item => {
+  return allItems.filter((item) => {
     if (item.completed) return false;
     if (!item.date || !item.time) return false;
 
-    const time = new Date(`${item.date}T${item.time}`);
-    const diffHours = (time - now) / (1000 * 60 * 60);
+    const itemTime = new Date(`${item.date}T${item.time}`);
+    const diffHours = (itemTime - now) / (1000 * 60 * 60);
 
     return diffHours > 0 && diffHours <= 24;
   });
 };
 
+/* =============================================
+   MAIN ENABLE FUNCTION
+   ============================================= */
+
 export const enableNotifications = () => {
   const upcoming = checkUpcomingItems();
 
-  upcoming.forEach(item => {
+  upcoming.forEach((item) => {
     scheduleReminder(
       item.date,
       item.time,
       `${item.emoji} ${item.title}`,
-      `لديك ${item.type === "task" ? "مهمة" : item.type === "lesson" ? "درس" : "محاضرة"}: ${item.description || item.title}`
+      `لديك ${typeLabel(item.type)}: ${item.description || item.title}`
     );
   });
 
-  return setInterval(() => {
+  const checkInterval = setInterval(() => {
     const current = checkUpcomingItems();
 
-    current.forEach(item => {
+    current.forEach((item) => {
       scheduleReminder(
         item.date,
         item.time,
         `${item.emoji} ${item.title}`,
-        `لديك ${item.type === "task" ? "مهمة" : item.type === "lesson" ? "درس" : "محاضرة"}: ${item.description || item.title}`
+        `لديك ${typeLabel(item.type)}: ${item.description || item.title}`
       );
     });
   }, 60000);
+
+  return checkInterval;
 };
