@@ -1,15 +1,23 @@
+/* =============================================
+   SIDEBAR COMPONENT
+   ============================================= */
+
 import { NavLink } from "react-router-dom";
 import { useState } from "react";
 import {
-  House, CheckSquare, BookOpen, GraduationCap,
-  Trophy, Settings, Shield, User, Timer, Menu, X
+  House, CheckSquare, GraduationCap,
+  Trophy, Settings, Shield, User, Timer, Menu, X,
+  Phone, Code2
 } from "lucide-react";
 import { useUser } from "../context/UserContext";
+
+/* =============================================
+   NAV DATA
+   ============================================= */
 
 const navItems = [
   { to: "/", icon: <House size={20} />, label: "الرئيسية" },
   { to: "/tasks", icon: <CheckSquare size={20} />, label: "المهام" },
-  { to: "/lessons", icon: <BookOpen size={20} />, label: "الدروس" },
   { to: "/lectures", icon: <GraduationCap size={20} />, label: "المحاضرات" },
   { to: "/pomodoro", icon: <Timer size={20} />, label: "بومودورو" },
 ];
@@ -19,6 +27,10 @@ const accountItems = [
   { to: "/achievements", icon: <Trophy size={20} />, label: "الإنجازات" },
   { to: "/settings", icon: <Settings size={20} />, label: "الإعدادات" },
 ];
+
+/* =============================================
+   SIDEBAR COMPONENT
+   ============================================= */
 
 export default function Sidebar() {
   const { userName } = useUser();
@@ -31,6 +43,7 @@ export default function Sidebar() {
       <button
         className="mobile-hamburger"
         onClick={() => setMobileOpen(true)}
+        aria-label="القائمة"
       >
         <Menu size={24} />
       </button>
@@ -40,53 +53,83 @@ export default function Sidebar() {
       )}
 
       <aside className={`sidebar ${mobileOpen ? "sidebar-open" : ""}`}>
+
         <button className="sidebar-close-btn" onClick={close}>
           <X size={20} />
         </button>
 
+        {/* LOGO */}
         <div className="logo">
-          <Shield size={32} />
+          <div className="logo-icon">
+            <Shield size={26} />
+          </div>
           <div>
             <h2>Study Shield</h2>
             <span>Focus & Achieve</span>
           </div>
         </div>
 
+        {/* USER */}
         {userName && (
           <div className="sidebar-user">
-            <span className="sidebar-user-avatar">👤</span>
-            <span className="sidebar-user-name">{userName}</span>
+            <div className="sidebar-user-avatar">
+              {userName.charAt(0).toUpperCase()}
+            </div>
+            <div className="sidebar-user-info">
+              <span className="sidebar-user-name">{userName}</span>
+              <span className="sidebar-user-role">طالب نشيط</span>
+            </div>
           </div>
         )}
 
+        {/* NAVIGATION */}
         <div className="sidebar-section">
-          <p className="section-title">الرئيسية</p>
+          <p className="section-title">التنقل</p>
           <nav>
             {navItems.map((item) => (
-              <NavLink key={item.to} to={item.to} onClick={close}>
-                {item.icon}
+              <NavLink
+                key={item.to}
+                to={item.to}
+                end={item.to === "/"}
+                onClick={close}
+              >
+                <span className="nav-icon">{item.icon}</span>
                 <span>{item.label}</span>
               </NavLink>
             ))}
           </nav>
         </div>
 
+        {/* ACCOUNT */}
         <div className="sidebar-section">
           <p className="section-title">الحساب</p>
           <nav>
             {accountItems.map((item) => (
-              <NavLink key={item.to} to={item.to} onClick={close}>
-                {item.icon}
+              <NavLink
+                key={item.to}
+                to={item.to}
+                onClick={close}
+              >
+                <span className="nav-icon">{item.icon}</span>
                 <span>{item.label}</span>
               </NavLink>
             ))}
           </nav>
         </div>
 
-        <div className="sidebar-footer">
-          <span>🛡️ Study Shield</span>
-          <small>Version 2.0</small>
+        {/* CREATOR FOOTER */}
+        <div className="sidebar-creator">
+          <div className="creator-badge">
+            <Code2 size={14} />
+            <span>Created By</span>
+          </div>
+          <div className="creator-name">Dark Byte</div>
+          <div className="creator-phone">
+            <Phone size={12} />
+            <span>01091291823</span>
+          </div>
         </div>
+
       </aside>
     </>
   );
