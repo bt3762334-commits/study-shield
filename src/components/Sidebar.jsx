@@ -1,30 +1,32 @@
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-export default function Sidebar() {
-  const link =
-    "block p-3 rounded-lg hover:bg-white/10 transition text-white";
-
+const Sidebar = () => {
   return (
-    <aside className="w-64 bg-[#1e293b] p-4 hidden md:flex flex-col">
-      <h2 className="text-xl font-bold mb-6">
-        StudyShield
-      </h2>
+    <aside
+      className="glass"
+      style={{
+        width: "240px",
+        margin: "10px",
+        padding: "20px",
+      }}
+    >
+      <h3 style={{ marginBottom: "20px" }}>
+        Study Shield
+      </h3>
 
-      <NavLink to="/" className={link}>
-        🏠 Dashboard
-      </NavLink>
-
-      <NavLink to="/tasks" className={link}>
-        ✅ Tasks
-      </NavLink>
-
-      <NavLink to="/pomodoro" className={link}>
-        ⏱ Focus
-      </NavLink>
-
-      <NavLink to="/settings" className={link}>
-        ⚙ Settings
-      </NavLink>
+      <nav style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
+        <Link to="/">Home</Link>
+        <Link to="/tasks">Tasks</Link>
+        <Link to="/pomodoro">Pomodoro</Link>
+        <Link to="/lessons">Lessons</Link>
+        <Link to="/lectures">Lectures</Link>
+        <Link to="/achievements">Achievements</Link>
+        <Link to="/profile">Profile</Link>
+        <Link to="/settings">Settings</Link>
+        <Link to="/quran">Quran</Link>
+      </nav>
     </aside>
   );
-}
+};
+
+export default Sidebar;
