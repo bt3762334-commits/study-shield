@@ -3,7 +3,7 @@ import Header from "../components/Header";
 
 export default function MainLayout({ children }) {
   return (
-    <div className="flex bg-bg text-text min-h-screen">
+    <div className="flex bg-[#0f172a] text-white min-h-screen">
       <Sidebar />
 
       <div className="flex-1">
