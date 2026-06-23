@@ -7,6 +7,7 @@ import StatsCard from "../components/ui/StatsCard";
 import StudyChart from "../components/charts/StudyChart";
 import CertificateCard from "../components/ui/CertificateCard";
 import GlassCard from "../components/ui/GlassCard";
+import IslamicCard from "../components/ui/IslamicCard";
 
 export default function Home() {
   const { userName, motivation } = useUser();
@@ -21,6 +22,9 @@ export default function Home() {
       </h2>
 
       <p className="text-gray-500 mb-6">{motivation}</p>
+
+      {/* Islamic */}
+      <IslamicCard />
 
       {/* Stats */}
       <div className="grid grid-cols-3 gap-4 mb-6">
