@@ -7,17 +7,17 @@ import {
 import { useUser } from "../context/UserContext";
 
 const navItems = [
-  { to: "/",            icon: <House size={20} />,          label: "الرئيسية" },
-  { to: "/tasks",       icon: <CheckSquare size={20} />,    label: "المهام" },
-  { to: "/lessons",     icon: <BookOpen size={20} />,       label: "الدروس" },
-  { to: "/lectures",    icon: <GraduationCap size={20} />,  label: "المحاضرات" },
-  { to: "/pomodoro",    icon: <Timer size={20} />,          label: "بومودورو" },
+  { to: "/", icon: <House size={20} />, label: "الرئيسية" },
+  { to: "/tasks", icon: <CheckSquare size={20} />, label: "المهام" },
+  { to: "/lessons", icon: <BookOpen size={20} />, label: "الدروس" },
+  { to: "/lectures", icon: <GraduationCap size={20} />, label: "المحاضرات" },
+  { to: "/pomodoro", icon: <Timer size={20} />, label: "بومودورو" },
 ];
 
 const accountItems = [
-  { to: "/profile",     icon: <User size={20} />,           label: "الملف الشخصي" },
-  { to: "/achievements",icon: <Trophy size={20} />,         label: "الإنجازات" },
-  { to: "/settings",    icon: <Settings size={20} />,       label: "الإعدادات" },
+  { to: "/profile", icon: <User size={20} />, label: "الملف الشخصي" },
+  { to: "/achievements", icon: <Trophy size={20} />, label: "الإنجازات" },
+  { to: "/settings", icon: <Settings size={20} />, label: "الإعدادات" },
 ];
 
 export default function Sidebar() {
@@ -28,28 +28,22 @@ export default function Sidebar() {
 
   return (
     <>
-      {/* ---- زر الهامبرجر (موبايل فقط) ---- */}
       <button
         className="mobile-hamburger"
         onClick={() => setMobileOpen(true)}
-        aria-label="القائمة"
       >
         <Menu size={24} />
       </button>
 
-      {/* ---- overlay موبايل ---- */}
       {mobileOpen && (
         <div className="sidebar-overlay" onClick={close} />
       )}
 
-      {/* ---- الشريط الجانبي ---- */}
       <aside className={`sidebar ${mobileOpen ? "sidebar-open" : ""}`}>
-        {/* إغلاق موبايل */}
         <button className="sidebar-close-btn" onClick={close}>
           <X size={20} />
         </button>
 
-        {/* لوجو */}
         <div className="logo">
           <Shield size={32} />
           <div>
@@ -58,7 +52,6 @@ export default function Sidebar() {
           </div>
         </div>
 
-        {/* اسم المستخدم */}
         {userName && (
           <div className="sidebar-user">
             <span className="sidebar-user-avatar">👤</span>
@@ -66,7 +59,6 @@ export default function Sidebar() {
           </div>
         )}
 
-        {/* تنقل رئيسي */}
         <div className="sidebar-section">
           <p className="section-title">الرئيسية</p>
           <nav>
@@ -79,7 +71,6 @@ export default function Sidebar() {
           </nav>
         </div>
 
-        {/* حساب */}
         <div className="sidebar-section">
           <p className="section-title">الحساب</p>
           <nav>
