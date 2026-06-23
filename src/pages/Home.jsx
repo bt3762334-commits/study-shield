@@ -5,6 +5,7 @@ import StreakCard from "../components/ui/StreakCard";
 import BadgeCard from "../components/ui/BadgeCard";
 import StatsCard from "../components/ui/StatsCard";
 import StudyChart from "../components/charts/StudyChart";
+import CertificateCard from "../components/ui/CertificateCard";
 
 export default function Home() {
   const { userName, motivation } = useUser();
@@ -39,8 +40,11 @@ export default function Home() {
         <StudyChart />
       </div>
 
+      {/* Certificate */}
+      <CertificateCard />
+
       {/* Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
         <div className="p-4 bg-white shadow rounded-xl">
           <h3 className="font-semibold">Today's Focus</h3>
           <p className="text-sm text-gray-500">
