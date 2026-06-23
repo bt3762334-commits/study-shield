@@ -15,8 +15,8 @@ export default function Profile() {
   const xpData = getXPData();
   const streak = getStreak();
 
-  const tasks = getTasks().filter(t => t.completed).length;
-  const lectures = getLectures().filter(l => l.completed).length;
+  const tasks = getTasks().filter((t) => t.completed).length;
+  const lectures = getLectures().filter((l) => l.completed).length;
   const total = tasks + lectures;
 
   const [editing, setEditing] = useState(false);
@@ -24,15 +24,18 @@ export default function Profile() {
   const [showModal, setShowModal] = useState(false);
   const [certImg, setCertImg] = useState(null);
 
-  const saveName_ = () => {
-    if (nameInput.trim()) {
-      saveName(nameInput.trim());
-      setEditing(false);
-    }
+  const handleSaveName = () => {
+    if (!nameInput.trim()) return;
+    saveName(nameInput.trim());
+    setEditing(false);
   };
 
   const handleCert = () => {
-    const img = generateCertificate(userName || "بطل", xpData.xp, xpData.level);
+    const img = generateCertificate(
+      userName || "بطل",
+      xpData.xp,
+      xpData.level
+    );
     setCertImg(img);
   };
 
@@ -49,63 +52,124 @@ export default function Profile() {
 
       <div className="profile-page">
 
+        {/* PROFILE CARD */}
         <div className="profile-card">
-          <div className="profile-avatar">🛡️</div>
+
+          <div className="profile-avatar">
+            {userName ? userName.charAt(0).toUpperCase() : "🛡️"}
+          </div>
 
           {editing ? (
-            <>
+            <div className="profile-name-edit">
+
               <input
+                className="profile-name-input"
                 value={nameInput}
                 onChange={(e) => setNameInput(e.target.value)}
+                onKeyDown={(e) =>
+                  e.key === "Enter" && handleSaveName()
+                }
               />
 
-              <button onClick={saveName_}>حفظ</button>
-              <button onClick={() => setEditing(false)}>إلغاء</button>
-            </>
+              <div style={{ display: "flex", gap: "10px" }}>
+                <button onClick={handleSaveName} className="profile-save-btn">
+                  حفظ
+                </button>
+
+                <button
+                  onClick={() => setEditing(false)}
+                  className="profile-cancel-btn"
+                >
+                  إلغاء
+                </button>
+              </div>
+
+            </div>
           ) : (
             <>
-              <h1>{userName || "مستخدم"}</h1>
-              <button onClick={() => setEditing(true)}>
-                تعديل
+              <h1>{userName || "مستخدم Study Shield"}</h1>
+
+              <button
+                className="profile-edit-btn"
+                onClick={() => setEditing(true)}
+              >
+                ✏️ تعديل الاسم
               </button>
             </>
           )}
 
-          <p onClick={() => setShowModal(true)}>
-            {xpData.level} — رسالة 💬
+          <p
+            className="profile-level-clickable"
+            onClick={() => setShowModal(true)}
+          >
+            <span>{xpData.level}</span>
+            <span> — اضغط لرسالة تحفيزية 💬</span>
           </p>
         </div>
 
+        {/* STATS */}
         <div className="profile-stats">
-          <div>{xpData.xp} XP</div>
-          <div>{streak} Streak</div>
-          <div>{total} Total</div>
-          <div>{tasks} Tasks</div>
-          <div>{lectures} Lectures</div>
+
+          <div className="profile-stat">
+            <h2>{xpData.xp}</h2>
+            <span>نقاط XP ⭐</span>
+          </div>
+
+          <div className="profile-stat">
+            <h2>{streak}</h2>
+            <span>Streak 🔥</span>
+          </div>
+
+          <div className="profile-stat">
+            <h2>{total}</h2>
+            <span>إجمالي الإنجازات 🏆</span>
+          </div>
+
+          <div className="profile-stat">
+            <h2>{tasks}</h2>
+            <span>مهام مكتملة ✅</span>
+          </div>
+
+          <div className="profile-stat">
+            <h2>{lectures}</h2>
+            <span>محاضرات مكتملة 🎓</span>
+          </div>
+
         </div>
 
+        {/* CERTIFICATE */}
         {xpData.xp >= 100 && (
-          <div>
-            <h2>🎓 شهادة</h2>
+          <div className="certificate-section">
+            <h2>🎓 شهادتك الإلكترونية</h2>
 
-            <button onClick={handleCert}>
-              إنشاء
+            <p>أنت وصلت لـ {xpData.xp} XP — استخرج شهادتك!</p>
+
+            <button className="cert-btn" onClick={handleCert}>
+              🎓 إنشاء الشهادة
             </button>
 
             {certImg && (
-              <>
-                <img src={certImg} alt="cert" />
-                <button onClick={downloadCert}>
-                  تحميل
+              <div className="cert-preview">
+                <img src={certImg} alt="شهادة إنجاز" />
+
+                <button
+                  className="cert-download-btn"
+                  onClick={downloadCert}
+                >
+                  ⬇️ تحميل الشهادة
                 </button>
-              </>
+              </div>
             )}
           </div>
         )}
+
       </div>
 
       {showModal && (
-        <LevelModal level={xpData.level} onClose={() => setShowModal(false)} />
+        <LevelModal
+          level={xpData.level}
+          onClose={() => setShowModal(false)}
+        />
       )}
     </MainLayout>
   );
