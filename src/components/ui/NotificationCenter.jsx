@@ -1,149 +1,98 @@
-import { getTasks } from "./taskStorage";
-import { getLectures } from "./lectureStorage";
+import { useState, useEffect } from "react";
+import {
+  getNotificationLogs,
+  markNotificationAsRead,
+  checkUpcomingItems
+} from "../../services/notificationService";
 
-const NOTIFICATION_STORAGE_KEY = "studyShieldNotifications";
+export default function NotificationCenter() {
+  const [logs, setLogs] = useState([]);
+  const [upcoming, setUpcoming] = useState([]);
 
-export const requestNotificationPermission = async () => {
-  if (!("Notification" in window)) {
-    console.error("❌ Browser does not support notifications");
-    return false;
-  }
+  useEffect(() => {
+    setLogs(getNotificationLogs().slice(-5).reverse());
+    setUpcoming(checkUpcomingItems());
+  }, []);
 
-  if (Notification.permission === "granted") {
-    return true;
-  }
-
-  if (Notification.permission === "denied") {
-    alert("الإشعارات معطلة. يرجى تفعيلها من إعدادات المتصفح");
-    return false;
-  }
-
-  try {
-    const permission = await Notification.requestPermission();
-    return permission === "granted";
-  } catch (error) {
-    console.error("❌ Error requesting notification permission:", error);
-    return false;
-  }
-};
-
-export const sendNotification = (title, options = {}) => {
-  if (!("Notification" in window)) {
-    console.error("❌ Notifications not supported");
-    return false;
-  }
-
-  if (Notification.permission === "granted") {
-    try {
-      new Notification(title, {
-        icon: "/favicon.ico",
-        badge: "/favicon.ico",
-        ...options
-      });
-      return true;
-    } catch (error) {
-      console.error("❌ Error sending notification:", error);
-      return false;
-    }
-  }
-
-  return false;
-};
-
-export const scheduleReminder = (date, time, title, description) => {
-  const reminderTime = new Date(`${date}T${time}`);
-  const now = new Date();
-  const delayMs = reminderTime - now;
-
-  if (delayMs > 0) {
-    setTimeout(() => {
-      sendNotification(title, {
-        body: description,
-        tag: "study-reminder",
-        requireInteraction: true
-      });
-
-      saveNotificationLog(title, description, reminderTime);
-    }, delayMs);
-  }
-};
-
-export const saveNotificationLog = (title, description, time) => {
-  const logs = JSON.parse(
-    localStorage.getItem(NOTIFICATION_STORAGE_KEY) || "[]"
-  );
-
-  logs.push({
-    id: Date.now(),
-    title,
-    description,
-    time: time.toISOString(),
-    read: false
-  });
-
-  localStorage.setItem(NOTIFICATION_STORAGE_KEY, JSON.stringify(logs));
-};
-
-export const getNotificationLogs = () => {
-  return JSON.parse(localStorage.getItem(NOTIFICATION_STORAGE_KEY) || "[]");
-};
-
-export const markNotificationAsRead = (id) => {
-  const logs = getNotificationLogs();
-  const updated = logs.map((log) =>
-    log.id === id ? { ...log, read: true } : log
-  );
-  localStorage.setItem(NOTIFICATION_STORAGE_KEY, JSON.stringify(updated));
-};
-
-const typeLabel = (type) => (type === "task" ? "مهمة" : "محاضرة");
-
-export const checkUpcomingItems = () => {
-  const tasks = getTasks();
-  const lectures = getLectures();
-
-  const allItems = [
-    ...tasks.map((t) => ({ ...t, type: "task", emoji: "✅" })),
-    ...lectures.map((l) => ({ ...l, type: "lecture", emoji: "🎓" }))
-  ];
-
-  const now = new Date();
-
-  return allItems.filter((item) => {
-    if (item.completed) return false;
-    if (!item.date || !item.time) return false;
-
-    const itemTime = new Date(`${item.date}T${item.time}`);
-    const diffHours = (itemTime - now) / (1000 * 60 * 60);
-
-    return diffHours > 0 && diffHours <= 24;
-  });
-};
-
-export const enableNotifications = () => {
-  const upcoming = checkUpcomingItems();
-
-  upcoming.forEach((item) => {
-    scheduleReminder(
-      item.date,
-      item.time,
-      `${item.emoji} ${item.title}`,
-      `لديك ${typeLabel(item.type)}: ${item.description || item.title}`
+  const handleRead = (id) => {
+    markNotificationAsRead(id);
+    setLogs((prev) =>
+      prev.map((l) => (l.id === id ? { ...l, read: true } : l))
     );
-  });
+  };
 
-  const checkInterval = setInterval(() => {
-    const current = checkUpcomingItems();
+  const unreadCount = logs.filter((l) => !l.read).length;
 
-    current.forEach((item) => {
-      scheduleReminder(
-        item.date,
-        item.time,
-        `${item.emoji} ${item.title}`,
-        `لديك ${typeLabel(item.type)}: ${item.description || item.title}`
-      );
-    });
-  }, 60000);
+  return (
+    <div className="notification-center">
+      <h3>
+        🔔 مركز الإشعارات
+        {unreadCount > 0 && (
+          <span className="notif-count-badge">{unreadCount}</span>
+        )}
+      </h3>
 
-  return checkInterval;
-};
+      {upcoming.length > 0 && (
+        <div className="upcoming-alerts">
+          <p className="upcoming-label">⏰ خلال 24 ساعة القادمة:</p>
+
+          {upcoming.map((item) => (
+            <div key={item.id} className="notif-item unread">
+              <div className="notif-item-dot" />
+              <div>
+                <strong>
+                  {item.emoji} {item.title}
+                </strong>
+                <p style={{ fontSize: "12px", color: "var(--muted)", marginTop: "2px" }}>
+                  {item.date} — {item.time}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {logs.length === 0 && upcoming.length === 0 ? (
+        <div className="empty-notifications">
+          <span style={{ fontSize: "32px" }}>🔕</span>
+          <p style={{ marginTop: "8px" }}>لا توجد إشعارات حالياً</p>
+        </div>
+      ) : (
+        logs.length > 0 && (
+          <div style={{ marginTop: upcoming.length > 0 ? "14px" : "0" }}>
+            <p className="upcoming-label">📋 سجل الإشعارات:</p>
+
+            {logs.map((log) => (
+              <div
+                key={log.id}
+                className={`notif-item ${!log.read ? "unread" : ""}`}
+                onClick={() => !log.read && handleRead(log.id)}
+                style={{ cursor: log.read ? "default" : "pointer" }}
+              >
+                {!log.read && <div className="notif-item-dot" />}
+
+                <div style={{ flex: 1 }}>
+                  <strong style={{ fontSize: "14px" }}>{log.title}</strong>
+
+                  {log.description && (
+                    <p style={{ fontSize: "12px", color: "var(--muted)", marginTop: "2px" }}>
+                      {log.description}
+                    </p>
+                  )}
+
+                  <p style={{ fontSize: "11px", color: "var(--muted)", marginTop: "4px" }}>
+                    {new Date(log.time).toLocaleString("ar-EG")}
+                  </p>
+                </div>
+
+                {log.read && (
+                  <span className="notif-read-badge">مقروء</span>
+                )}
+              </div>
+            ))}
+          </div>
+        )
+      )}
+    </div>
+  );
+}
