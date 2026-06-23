@@ -3,62 +3,30 @@ import { useUser } from "../../context/UserContext";
 
 export default function WelcomeModal() {
   const { saveName } = useUser();
-  const [input, setInput] = useState("");
-  const [step, setStep] = useState(1);
+  const [name, setName] = useState("");
 
   const handleSubmit = () => {
-    const name = input.trim();
-    if (!name) return;
-    saveName(name);
-    setStep(2);
-    setTimeout(() => {}, 100);
+    if (name.trim()) {
+      saveName(name.trim());
+    }
   };
 
-  if (step === 2) {
-    return (
-      <div className="welcome-overlay">
-        <div className="welcome-modal welcome-success">
-          <div className="welcome-avatar">🛡️</div>
-          <h1>مرحباً بك يا <span className="name-highlight">{input}</span>!</h1>
-          <p>Study Shield جاهز لمساعدتك على التميز والإنجاز</p>
-
-          <div className="welcome-features">
-            <span>✅ تتبع مهامك</span>
-            <span>🏆 اكسب إنجازات</span>
-            <span>📈 قِس تقدمك</span>
-          </div>
-
-          <button className="welcome-btn" onClick={() => {}}>
-            لنبدأ 🚀
-          </button>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className="welcome-overlay">
-      <div className="welcome-modal">
-        <div className="welcome-avatar">🛡️</div>
-        <h1>أهلاً وسهلاً!</h1>
-        <p>ما اسمك؟ عشان نعرف نرحب بيك صح 😊</p>
-
+    <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
+      <div className="bg-white p-6 rounded-xl shadow-xl w-80">
+        <h2 className="text-xl font-bold mb-4">Welcome 👋</h2>
+        <p className="mb-4">What is your name?</p>
         <input
-          className="welcome-input"
-          type="text"
-          placeholder="اكتب اسمك هنا..."
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
-          autoFocus
+          className="w-full border p-2 rounded mb-4"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="Enter your name"
         />
-
         <button
-          className="welcome-btn"
           onClick={handleSubmit}
-          disabled={!input.trim()}
+          className="w-full bg-blue-600 text-white py-2 rounded"
         >
-          ابدأ رحلتك 🚀
+          Continue
         </button>
       </div>
     </div>
