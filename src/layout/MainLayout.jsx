@@ -1,18 +1,21 @@
-import Sidebar from "../components/Sidebar";
+import Navbar from "../components/Navbar";
 import Header from "../components/Header";
+import { useUser } from "../context/UserContext";
+import { useEffect } from "react";
 
 export default function MainLayout({ children }) {
+  const { getMotivation } = useUser();
+
+  useEffect(() => {
+    getMotivation();
+  }, []);
+
   return (
-    <div className="app-layout">
-      <Sidebar />
+    <div className="min-h-screen bg-gray-50">
+      <Navbar />
+      <Header />
 
-      <div className="main-content">
-        <Header />
-
-        <main className="page-content">
-          {children}
-        </main>
-      </div>
+      <main className="p-4">{children}</main>
     </div>
   );
 }
