@@ -2,6 +2,7 @@ import Navbar from "../components/Navbar";
 import Header from "../components/Header";
 import { useUser } from "../context/UserContext";
 import { useEffect } from "react";
+import XPBar from "../components/ui/XPBar";
 
 export default function MainLayout({ children }) {
   const { getMotivation } = useUser();
@@ -15,7 +16,10 @@ export default function MainLayout({ children }) {
       <Navbar />
       <Header />
 
-      <main className="p-4">{children}</main>
+      <div className="p-4">
+        <XPBar />
+        {children}
+      </div>
     </div>
   );
 }
